@@ -15,8 +15,8 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^7.9.6",
-    "solodb-react-components": "https://github.com/jield-webdev/solodb-react-components.git",
-    "solodb-typescript-core": "https://github.com/jield-webdev/solodb-typescript-core.git"
+    "@jield/solodb-react-components": "^1.0.4",
+    "@jield/solodb-typescript-core": "^1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

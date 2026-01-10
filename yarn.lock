@@ -386,6 +386,32 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.3.tgz#c2b9d2e374ee62c586d3adbea87199b1d7a7a6ba"
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
+"@jield/solodb-react-components@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@jield/solodb-react-components/-/solodb-react-components-1.0.4.tgz#43c2a1330060d8768b115f637e329b6a7294b40d"
+  integrity sha512-OYdHHFdsn4TwmEw4KNQtYJ4dNAybxCVpxHbd60pmi/Y8Nb+3zGVeaiarLsF1eozIJ5Z83SYPrk4eJeBaxCdnsg==
+  dependencies:
+    "@jield/solodb-typescript-core" "^1.0.2"
+    axios "^1.13.2"
+    moment "^2.30.1"
+    moment-timezone "^0.6.0"
+    qrcode.react "^4.2.0"
+    react-bootstrap "^2.10.10"
+    react-dropzone "^14.3.8"
+    react-google-charts "^5.2.1"
+    react-hook-form "^7.70.0"
+    react-intersection-observer "^10.0.0"
+    react-markdown "^10.1.0"
+    react-select "^5.10.2"
+    yet-another-react-lightbox "^3.28.0"
+
+"@jield/solodb-typescript-core@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@jield/solodb-typescript-core/-/solodb-typescript-core-1.0.2.tgz#dc222a30ce5e0c08b284d4c320482a20d53d43b1"
+  integrity sha512-BLZNQx5EHWLB/TQJ44BbaZU0Hoc7VJsVIf6RDUvzAEQ7FmZYsEzrT4v+qySo9xhvIcBK6KaZdx+2XGVvUHgdYA==
+  dependencies:
+    axios "^1.13.2"
+
 "@jridgewell/gen-mapping@^0.3.12", "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.13"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz#6342a19f44347518c93e43b1ac69deb3c4656a1f"
@@ -2309,7 +2335,7 @@ react-google-charts@^5.2.1:
   resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-5.2.1.tgz#d9cbe8ed45d7c0fafefea5c7c3361bee76648454"
   integrity sha512-mCbPiObP8yWM5A9ogej7Qp3/HX4EzOwuEzUYvcfHtL98Xt4V/brD14KgfDzSNNtyD48MNXCpq5oVaYKt0ykQUQ==
 
-react-hook-form@^7.67.0:
+react-hook-form@^7.70.0:
   version "7.70.0"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.70.0.tgz#256fa2ca71633c99f16ca2cd6074628aa52001b2"
   integrity sha512-COOMajS4FI3Wuwrs3GPpi/Jeef/5W1DRR84Yl5/ShlT3dKVFUfoGiEZ/QE6Uw8P4T2/CLJdcTVYKvWBMQTEpvw==
@@ -2485,30 +2511,6 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
-
-"solodb-react-components@https://github.com/jield-webdev/solodb-react-components.git":
-  version "1.0.0"
-  resolved "https://github.com/jield-webdev/solodb-react-components.git#8ed493eb3bc3e063c057a9a27262491a4fbb7197"
-  dependencies:
-    axios "^1.13.2"
-    moment "^2.30.1"
-    moment-timezone "^0.6.0"
-    qrcode.react "^4.2.0"
-    react-bootstrap "^2.10.10"
-    react-dropzone "^14.3.8"
-    react-google-charts "^5.2.1"
-    react-hook-form "^7.67.0"
-    react-intersection-observer "^10.0.0"
-    react-markdown "^10.1.0"
-    react-select "^5.10.2"
-    solodb-typescript-core "https://github.com/jield-webdev/solodb-typescript-core.git"
-    yet-another-react-lightbox "^3.25.0"
-
-"solodb-typescript-core@https://github.com/jield-webdev/solodb-typescript-core.git":
-  version "1.0.0"
-  resolved "https://github.com/jield-webdev/solodb-typescript-core.git#b9f25e1bc203aaa062c404f114a2a60a800c24db"
-  dependencies:
-    axios "^1.13.2"
 
 source-map-js@^1.2.1:
   version "1.2.1"
@@ -2770,7 +2772,7 @@ yaml@^1.10.0:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yet-another-react-lightbox@^3.25.0:
+yet-another-react-lightbox@^3.28.0:
   version "3.28.0"
   resolved "https://registry.yarnpkg.com/yet-another-react-lightbox/-/yet-another-react-lightbox-3.28.0.tgz#f78f84fb6b00ae452a283b1004890fddc1c7ab40"
   integrity sha512-bHjG1/DS4aWPkKb/6hNp0+zcgjda27wQlXBpJvb9TcblC1U1dY3Ih0pe85O8/ZLz+OIy+ZvLxN2gmsbDW0Q/QQ==
