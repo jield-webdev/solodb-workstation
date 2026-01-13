@@ -1,7 +1,7 @@
 import type { User } from "@jield/solodb-typescript-core";
-import type { DeviceSummary } from "../../../types/device/deviceSummary";
-import { canUserAccessDevice } from "./canUserAccessDevice";
-import devicesRegistryDev from "../json/devicesRegistryDev.json";
+import { canUserAccessDevice } from "./canUserAccessDevice.ts";
+import type { DeviceSummary } from "../../../types/device/deviceSummary.ts";
+import devicesRegistryDev from "../../sources/json/devicesRegistryDev.json"
 
 export type GetDevice = (
   deviceId: number,

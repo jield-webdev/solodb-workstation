@@ -1,7 +1,7 @@
 import type { User } from "@jield/solodb-typescript-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { canUserAccessDevice } from "./canUserAccessDevice";
-import { getDevice, setDeviceDataProvider } from "./getDevice";
+import { canUserAccessDevice } from "./canUserAccessDevice.ts";
+import { getDevice, setDeviceDataProvider } from "./getDevice.ts";
 
 vi.mock("./canUserAccessDevice", () => ({
   canUserAccessDevice: vi.fn(),

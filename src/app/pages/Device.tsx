@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getDevice } from "../../data/sources/device/getDevice";
 import { useAuth } from "../../auth/context/useAuth";
 import { useParams } from "react-router-dom";
 import type { DeviceSummary } from "../../types/device/deviceSummary";
+import { getDevice } from "../../data/repositories/device/getDevice";
 
 export default function Device() {
   const { user } = useAuth();
@@ -12,7 +12,6 @@ export default function Device() {
 
   useEffect(() => {
     if (!user || !id) return;
-    console.log(id);
     getDevice(Number(id), user).then(setDevice);
   }, [user, id]);
 
