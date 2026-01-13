@@ -1,5 +1,5 @@
 import { type ReactElement } from "react";
-import { AuthProvider } from "./auth/AuthProvider";
+import { AuthProvider } from "../../auth/context/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface ProvidersProps {

@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import { Providers } from "./providers";
-import { AppRoutes } from "./routes";
+import { Providers } from "../providers/Providers";
+import { AppRoutes } from "../routes/AppRoutes";
 
 
 export default function App() {
@@ -12,4 +12,3 @@ export default function App() {
     </Providers>
   );
 }
-

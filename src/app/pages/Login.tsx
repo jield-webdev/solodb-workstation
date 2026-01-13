@@ -1,7 +1,7 @@
-import { useAuth } from "../app/auth/useAuth";
+import { useAuth } from "../../auth/context/useAuth";
 
 export default function Login() {
-  const { user } = useAuth(null);
+  const { user } = useAuth();
 
   return (
     <div>

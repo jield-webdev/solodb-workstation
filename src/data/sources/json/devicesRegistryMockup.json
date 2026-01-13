@@ -1,0 +1,22 @@
+[
+  {
+    "id": 101,
+    "displayName": "Compressor A-12",
+    "modules": [1, 3, 4]
+  },
+  {
+    "id": 102,
+    "displayName": "Boiler Room Sensor Rack",
+    "modules": [1, 2, 4]
+  },
+  {
+    "id": 103,
+    "displayName": "Chiller West Wing",
+    "modules": [1, 3]
+  },
+  {
+    "id": 104,
+    "displayName": "Fleet Tracker Unit 7",
+    "modules": [4, 5]
+  }
+]

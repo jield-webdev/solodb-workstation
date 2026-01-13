@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "moduleName": "Temperature Sensor",
+    "reactComponent": "TemperatureSensor"
+  },
+  {
+    "id": 2,
+    "moduleName": "Pressure Sensor",
+    "reactComponent": "PressureSensor"
+  },
+  {
+    "id": 3,
+    "moduleName": "Vibration Monitor",
+    "reactComponent": "VibrationMonitor"
+  },
+  {
+    "id": 4,
+    "moduleName": "Power Meter",
+    "reactComponent": "PowerMeter"
+  },
+  {
+    "id": 5,
+    "moduleName": "GPS Tracker",
+    "reactComponent": "GPSTracker"
+  }
+]
