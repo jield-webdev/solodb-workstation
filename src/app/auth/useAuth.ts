@@ -8,8 +8,10 @@ export const useAuth = (bearerToken: string | null) => {
 
   useEffect(() => {
     if (bearerToken === null) {
+        setIsLoadingUser(false);
         return;
     }
+
     configureAxiosHeaders(bearerToken ?? "", getServerUri());
 
     getMe()
