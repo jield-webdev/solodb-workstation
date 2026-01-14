@@ -3,6 +3,7 @@ import { useAuth } from "../../auth/context/useAuth";
 import { useParams } from "react-router-dom";
 import type { DeviceSummary } from "../../types/device/deviceSummary";
 import { getDevice } from "../../data/repositories/device/getDevice";
+import ModuleComponentRenderer from "../../modules/ModuleComponentRenderer";
 
 export default function Device() {
   const { user } = useAuth();
@@ -22,7 +23,7 @@ export default function Device() {
       <div>
         Modules:
         {device?.modules.map((mod) => (
-          <span key={mod}>{mod} </span>
+            <ModuleComponentRenderer moduleName={mod}/>
         ))}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import type { User } from "@jield/solodb-typescript-core";
 import { canUserAccessDevice } from "./canUserAccessDevice.ts";
 import type { DeviceSummary } from "../../../types/device/deviceSummary.ts";
-import devicesRegistryDev from "../../sources/json/devicesRegistryDev.json"
+import devicesRegistryDev from "../../sources/json/devicesRegistryDev.json";
 
 export type GetDevice = (
   deviceId: number,
@@ -36,6 +36,7 @@ export function setDeviceDataProvider(next: DeviceDataProvider) {
 
 export async function getDevice(deviceId: number, user: User) {
   if (!canUserAccessDevice(deviceId, user)) {
+    throw new Error("User can not access the device");
   }
 
   return provider.getDevice(deviceId, user);

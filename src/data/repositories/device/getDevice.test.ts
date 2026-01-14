@@ -38,7 +38,7 @@ describe("getDevice", () => {
     expect(getDeviceProviderMock).toHaveBeenCalledWith(deviceId, userStub);
   });
 
-  it("still calls the provider even when access is denied", async () => {
+  it("throws when access is denied", async () => {
     const deviceId = 202;
     const deviceSummary = {
       id: deviceId,
@@ -49,10 +49,10 @@ describe("getDevice", () => {
     canUserAccessDeviceMock.mockReturnValue(false);
     getDeviceProviderMock.mockResolvedValue(deviceSummary);
 
-    const result = await getDevice(deviceId, userStub);
-
-    expect(result).toEqual(deviceSummary);
+    await expect(getDevice(deviceId, userStub)).rejects.toThrow(
+      "User can not access the device",
+    );
     expect(canUserAccessDeviceMock).toHaveBeenCalledWith(deviceId, userStub);
-    expect(getDeviceProviderMock).toHaveBeenCalledWith(deviceId, userStub);
+    expect(getDeviceProviderMock).not.toHaveBeenCalled();
   });
 });

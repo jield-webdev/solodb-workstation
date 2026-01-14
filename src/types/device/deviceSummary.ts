@@ -4,5 +4,5 @@ export interface DeviceSummary {
     displayName: string;
 
     // stores the DeviceModuleEntry id to check if its a available module for the device 
-    modules: number[];
+    modules: string[];
 }
