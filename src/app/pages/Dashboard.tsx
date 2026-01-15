@@ -4,8 +4,6 @@ import devicesRegistryDev from "../../data/sources/json/devicesRegistryDev.json"
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const totalDevices = devicesRegistryDev.length;
-  const totalModules = devicesRegistryDev.reduce((count, device) => count + device.modules.length, 0);
 
   return (
     <div className="container py-4">
@@ -19,36 +17,6 @@ export default function Dashboard() {
         <div className="text-end">
           <div className="small text-secondary">Signed in as</div>
           <div className="fw-semibold">{user?.full_name ?? "Guest"}</div>
-        </div>
-      </div>
-
-      <div className="row g-3 mb-4">
-        <div className="col-sm-6 col-lg-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Devices tracked</div>
-              <div className="display-6 fw-semibold">{totalDevices}</div>
-              <div className="text-secondary small">Across all labs</div>
-            </div>
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Active modules</div>
-              <div className="display-6 fw-semibold">{totalModules}</div>
-              <div className="text-secondary small">Ready for launch</div>
-            </div>
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Status</div>
-              <div className="display-6 fw-semibold">Live</div>
-              <div className="text-secondary small">Demo data streaming</div>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -2,12 +2,12 @@
   {
     "id": 1,
     "displayName": "Compressor A-12",
-    "modules": ["ListEquipment", "ListRun"]
+    "modules": ["ProcessNextStepInEquipment"]
   },
   {
     "id": 2,
     "displayName": "Boiler Room Sensor Rack",
-    "modules": ["ListRun"]
+    "modules": ["ProcessNextStepInEquipment"]
   },
   {
     "id": 3,
@@ -17,6 +17,6 @@
   {
     "id": 4,
     "displayName": "Fleet Tracker Unit 7",
-    "modules": ["ListEquipment"]
+    "modules": ["ProcessNextStepInEquipment"]
   }
 ]
