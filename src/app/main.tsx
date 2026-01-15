@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from "./layout/App";
-import { initConfig } from "../lib/runtimeConfig";
+import { initConfig } from "../helpers/runtimeConfig";
 
 initConfig({
   serverUri: "https://solodb-onelab.docker.localhost",

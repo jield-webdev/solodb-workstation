@@ -1,7 +1,7 @@
 import { configureAxiosHeaders, getMe, type User } from "@jield/solodb-typescript-core";
 import { useEffect, useState, type ReactElement } from "react";
 import { AuthContext } from "./AuthContext";
-import { getServerUri } from "../../lib/runtimeConfig";
+import { getServerUri } from "../../helpers/runtimeConfig";
 
 export const AuthProvider = ({ children }: { children: ReactElement }) => {
   const [user, setUser] = useState<User | null>(null);
