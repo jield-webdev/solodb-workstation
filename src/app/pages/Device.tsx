@@ -60,7 +60,7 @@ export default function Device() {
               {device?.modules.length ? (
                 <div className="row g-3">
                   {device.modules.map((moduleName) => (
-                    <div className="border rounded-3 p-3 h-100 bg-body-tertiary">
+                    <div key={moduleName} className="border rounded-3 p-3 h-100 bg-body-tertiary">
                       <ModuleComponentRenderer moduleName={moduleName} />
                     </div>
                   ))}

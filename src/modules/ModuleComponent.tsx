@@ -1,7 +1,6 @@
-import React from "react";
+import { type JSX } from "react";
 
-export default class ModuleComponent extends React.Component {
-    render() {
-        return <>Base module component</>;
-    } 
+export interface ModuleProps {
 }
+
+export type ModuleComponent = (...args: [props: ModuleProps]) => JSX.Element;
