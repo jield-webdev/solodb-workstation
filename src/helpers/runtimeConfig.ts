@@ -17,6 +17,16 @@ export function initConfig(partial: Partial<RuntimeConfig>) {
   if (cfg.serverUri) axios.defaults.baseURL = getServerUri();
 }
 
+/**
+ * Returns the server API base URI.
+ */
 export function getServerUri() {
-  return cfg.serverUri + "/api";
+  return `${cfg.serverUri}/api`;
+}
+
+/**
+ * Returns the server base URL without the API path.
+ */
+export function getServerPlainUrl() {
+  return cfg.serverUri;
 }
