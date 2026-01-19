@@ -4,6 +4,9 @@ import {
   listRuns,
   type Equipment,
 } from "@jield/solodb-typescript-core";
+import {
+  RunStepExecuteMinimal,
+} from "@jield/solodb-react-components";
 import { useQueries } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -12,6 +15,7 @@ import LinkToSoloDb from "../../../components/LinkToSoloDB";
 export const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [equipment, setEquipment] = useState<Equipment | null>();
+  const [activeRunId, setActiveRunId] = useState<number | null>(null);
 
   const queries = useQueries({
     queries: [
@@ -61,11 +65,26 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
 
   const runsToProcess = runsQuery.data?.items ?? [];
 
+  useEffect(() => {
+    if (runsToProcess.length > 0 && activeRunId === null) {
+      setActiveRunId(runsToProcess[0].id);
+    } else if (runsToProcess.length === 0 && activeRunId !== null) {
+      setActiveRunId(null);
+    } else if (
+      activeRunId !== null &&
+      !runsToProcess.some((run) => run.id === activeRunId)
+    ) {
+      setActiveRunId(runsToProcess[0]?.id ?? null);
+    }
+  }, [runsToProcess, activeRunId]);
+
+  const activeRun = runsToProcess.find((run) => run.id === activeRunId);
+
   return (
     <div>
       <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
         <div>
-          <div className="text-uppercase small text-secondary">Equipment</div>
+          <div className="text-uppercase small text-secondary">Process next step in equipment:</div>
           <div className="h5 mb-1">
             {equipment?.name ?? "Unknown equipment"}
           </div>
@@ -80,29 +99,53 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
           </div>
         </div>
       ) : (
-        <div className="list-group list-group-flush">
-          {runsToProcess.map((run) => (
-            <div key={run.id} className="list-group-item px-0 py-3">
-              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2">
+        <>
+          <ul className="nav nav-tabs mb-3">
+            {runsToProcess.map((run) => (
+              <li key={run.id} className="nav-item">
+                <button
+                  className={`nav-link ${activeRunId === run.id ? "active" : ""}`}
+                  onClick={() => setActiveRunId(run.id)}
+                  type="button"
+                >
+                  <div className="d-flex align-items-center gap-2">
+                    <span>{run.name}</span>
+                    <span className="badge rounded-pill text-bg-warning text-dark small">
+                      {run.label}
+                    </span>
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {activeRun && (
+            <div className="border rounded-3 p-3">
+              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                  <div className="fw-semibold">Run: {run.name}</div>
-                  <span className="badge rounded-pill text-bg-warning text-dark">
-                    {run.label}
-                  </span>
+                  <div className="fw-semibold h6 mb-0">Run: {activeRun.name}</div>
                 </div>
               </div>
 
-              {run.first_unfinished_step && (
-                <div className="d-flex flex-wrap align-items-center gap-2 mt-2">
-                  <LinkToSoloDb
-                    path={`operator/run/step/${run.first_unfinished_step.id}`}
-                    text={run.first_unfinished_step.name}
+              {activeRun.first_unfinished_step && (
+                <div>
+                  <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                    <span className="text-secondary small">Next step:</span>
+                    <LinkToSoloDb
+                      path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
+                      text={activeRun.first_unfinished_step.name}
+                    />
+                  </div>
+                  <RunStepExecuteMinimal
+                    run={activeRun}
+                    runStep={activeRun.first_unfinished_step}
+                    showOnlyEmphasizedParameters={false}
                   />
                 </div>
               )}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );
