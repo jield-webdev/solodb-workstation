@@ -4,10 +4,8 @@ import {
   listRuns,
   type Equipment,
 } from "@jield/solodb-typescript-core";
-import {
-  RunStepExecuteMinimal,
-} from "@jield/solodb-react-components";
-import { useQueries } from "@tanstack/react-query";
+import { RunStepExecuteMinimal } from "@jield/solodb-react-components";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
@@ -16,6 +14,8 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [equipment, setEquipment] = useState<Equipment | null>();
   const [activeRunId, setActiveRunId] = useState<number | null>(null);
+
+  const queryClient = useQueryClient();
 
   const queries = useQueries({
     queries: [
@@ -31,6 +31,10 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     ],
   });
 
+  const reloadQueriesByKey = (key: any[]) => {
+    queryClient.refetchQueries({ queryKey: key });
+  };
+
   const [equipmentQuery, runsQuery] = queries;
 
   useEffect(() => {
@@ -38,6 +42,23 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
       setEquipment(equipmentQuery.data);
     }
   }, [equipmentQuery]);
+
+  const runsToProcess =
+    runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [];
+
+  // manage run tabs state
+  useEffect(() => {
+    if (runsToProcess.length > 0 && activeRunId === null) {
+      setActiveRunId(runsToProcess[0].id);
+    } else if (runsToProcess.length === 0 && activeRunId !== null) {
+      setActiveRunId(null);
+    } else if (
+      activeRunId !== null &&
+      !runsToProcess.some((run) => run.id === activeRunId)
+    ) {
+      setActiveRunId(runsToProcess[0]?.id ?? null);
+    }
+  }, [runsToProcess, activeRunId]);
 
   const isLoading = queries.some((q) => q.isLoading);
   const isError = queries.some((q) => q.isError);
@@ -63,28 +84,15 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     );
   }
 
-  const runsToProcess = runsQuery.data?.items ?? [];
-
-  useEffect(() => {
-    if (runsToProcess.length > 0 && activeRunId === null) {
-      setActiveRunId(runsToProcess[0].id);
-    } else if (runsToProcess.length === 0 && activeRunId !== null) {
-      setActiveRunId(null);
-    } else if (
-      activeRunId !== null &&
-      !runsToProcess.some((run) => run.id === activeRunId)
-    ) {
-      setActiveRunId(runsToProcess[0]?.id ?? null);
-    }
-  }, [runsToProcess, activeRunId]);
-
   const activeRun = runsToProcess.find((run) => run.id === activeRunId);
 
   return (
     <div>
       <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
         <div>
-          <div className="text-uppercase small text-secondary">Process next step in equipment:</div>
+          <div className="text-uppercase small text-secondary">
+            Process next step in equipment:
+          </div>
           <div className="h5 mb-1">
             {equipment?.name ?? "Unknown equipment"}
           </div>
@@ -123,7 +131,9 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
             <div className="border rounded-3 p-3">
               <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                  <div className="fw-semibold h6 mb-0">Run: {activeRun.name}</div>
+                  <div className="fw-semibold h6 mb-0">
+                    Run: {activeRun.name}
+                  </div>
                 </div>
               </div>
 
@@ -140,6 +150,11 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
                     run={activeRun}
                     runStep={activeRun.first_unfinished_step}
                     showOnlyEmphasizedParameters={false}
+                    reloadRunStepFn={() => { reloadQueriesByKey([
+                      "run",
+                      "to_process",
+                      equipment?.id,
+                    ])}}
                   />
                 </div>
               )}
