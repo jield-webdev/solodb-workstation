@@ -39,10 +39,10 @@ Devices are accessed using routes following the pattern:
 When accessing a device route, the application invokes the following function:
 
 ```ts
-getDeviceModules(deviceId, userContext)
+getDevice(deviceId, userContext)
 ```
 
-This function returns the set of functional modules that must be loaded for the specified device, taking into account both the device configuration and the user’s permissions.
+This function returns a `DeviceSummary`, including the device metadata and the list of module IDs that must be loaded for the specified device, taking into account both the device configuration and the user’s permissions.
 
 In the initial implementation, this information is obtained from a static JSON file.  
 The architecture is designed so that this data source can later be replaced by an API call without impacting the rest of the application.
