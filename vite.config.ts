@@ -5,6 +5,7 @@ import electron from "vite-plugin-electron/simple";
 import type {} from "vitest/config";
 
 // https://vite.dev/config/
+// @ts-ignore
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const useLocalSolodb = env.VITE_USE_LOCAL_SOLODB === "true";
