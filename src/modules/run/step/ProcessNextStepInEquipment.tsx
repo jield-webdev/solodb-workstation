@@ -3,8 +3,12 @@ import {
   getEquipment,
   listRuns,
   type Equipment,
+  type Run,
 } from "@jield/solodb-typescript-core";
-import { RunStepExecuteMinimal } from "@jield/solodb-react-components";
+import {
+  RunStepExecuteMinimal,
+  SelectRunWithQrScanner,
+} from "@jield/solodb-react-components";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -88,7 +92,7 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
 
   return (
     <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
         <div>
           <div className="text-uppercase small text-secondary">
             Process next step in equipment:
@@ -97,6 +101,10 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
             {equipment?.name ?? "Unknown equipment"}
           </div>
         </div>
+        <SelectRunWithQrScanner
+          setRun={(run: Run) => setActiveRunId(run.id)}
+          runsList={runsToProcess}
+        />
       </div>
 
       {runsToProcess.length === 0 ? (
@@ -150,11 +158,9 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
                     run={activeRun}
                     runStep={activeRun.first_unfinished_step}
                     showOnlyEmphasizedParameters={false}
-                    reloadRunStepFn={() => { reloadQueriesByKey([
-                      "run",
-                      "to_process",
-                      equipment?.id,
-                    ])}}
+                    reloadRunStepFn={() => {
+                      reloadQueriesByKey(["run", "to_process", equipment?.id]);
+                    }}
                   />
                 </div>
               )}
