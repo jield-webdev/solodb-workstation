@@ -967,9 +967,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-react-components@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "@jield/solodb-react-components@npm:1.0.9"
+"@jield/solodb-react-components@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "@jield/solodb-react-components@npm:1.0.10"
   dependencies:
     "@jield/solodb-typescript-core": "npm:^1.0.5"
     "@testing-library/dom": "npm:^10.4.1"
@@ -991,7 +991,7 @@ __metadata:
     react: ^19
     react-dom: ^19
     react-router-dom: ^7.9
-  checksum: 10c0/cfeff4893a226fecedaef26d6795123389f5ce49ed76dd7690f510582976628532facb2ca4e64803a2a82584e430434a5ca0e1216e57f5a5e5fb5f78e8b8b5fd
+  checksum: 10c0/17781173d9a6973c18c9326317163f700a33561c5e89bbcce076afee7c80b8bbdc3a0caf1e4c43ee5bde26e22fc90285fb22c566ae678347447ca69778c38a91
   languageName: node
   linkType: hard
 
@@ -6871,7 +6871,7 @@ __metadata:
   resolution: "solodb-workstation@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.39.1"
-    "@jield/solodb-react-components": "npm:^1.0.9"
+    "@jield/solodb-react-components": "npm:^1.0.10"
     "@jield/solodb-typescript-core": "npm:^1.0.5"
     "@tanstack/react-query": "npm:~5.90.11"
     "@tanstack/react-table": "npm:^8.21"
