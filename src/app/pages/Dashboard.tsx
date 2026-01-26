@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../auth/context/useAuth";
+import { useAuth } from "../../auth/hooks/useAuth";
 import devicesRegistryDev from "../../data/sources/json/devicesRegistryDev.json";
 
 export default function Dashboard() {

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isElectronActive } from "../helpers/electron/isElectron";
+import { useAuth } from "../auth/hooks/useAuth";
 
 export default function AppNavbar() {
   const [isElectron, setIsElectron] = useState(false);
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
     // Check if the electron API is available
@@ -20,12 +22,21 @@ export default function AppNavbar() {
           Solodb Workstation {isElectron ? " Desktop version" : " Web version"}
         </Link>
         <div className="d-flex gap-2">
-          <Link className="btn btn-sm btn-outline-light" to="/dashboard">
-            Dashboard
-          </Link>
-          <Link className="btn btn-sm btn-outline-light" to="/login">
-            Session
-          </Link>
+          {!isLoading && user ? (
+            <>
+              <Link className="btn btn-sm btn-outline-light" to="/dashboard">
+                Dashboard
+              </Link>
+              <Link className="btn btn-sm btn-outline-light" to="/session">
+                Session
+              </Link>
+            </>
+          ) : null}
+          {!isLoading && !user ? (
+            <Link className="btn btn-sm btn-outline-light" to="/login">
+              Login
+            </Link>
+          ) : null}
         </div>
       </div>
     </nav>
