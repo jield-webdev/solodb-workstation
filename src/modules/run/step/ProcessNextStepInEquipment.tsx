@@ -1,6 +1,7 @@
 import type { ModuleComponent } from "../../ModuleComponent";
 import {
   getEquipment,
+  getEquipmentModule,
   listRuns,
   type Equipment,
   type Run,
@@ -8,6 +9,7 @@ import {
 import {
   RunStepExecuteMinimal,
   SelectRunWithQrScanner,
+  ModuleStatusElement,
 } from "@jield/solodb-react-components";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -32,6 +34,10 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
         queryFn: () =>
           listRuns({ firstUnfinishedStepEquipment: equipment ?? undefined }),
       },
+      {
+        queryKey: ["equipment", equipment?.id],
+        queryFn: () => getEquipmentModule({ id: Number(equipment?.id) }),
+      },
     ],
   });
 
@@ -39,7 +45,7 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     queryClient.refetchQueries({ queryKey: key });
   };
 
-  const [equipmentQuery, runsQuery] = queries;
+  const [equipmentQuery, runsQuery, moduleQuery] = queries;
 
   useEffect(() => {
     if (equipmentQuery.data?.id !== equipment?.id) {
@@ -85,6 +91,11 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
           </div>
           <div className="h5 mb-1">
             {equipment?.name ?? "Unknown equipment"}
+            {moduleQuery.data && (
+              <span className="ms-2">
+                <ModuleStatusElement module={moduleQuery.data} />
+              </span>
+            )}
           </div>
         </div>
         <SelectRunWithQrScanner
@@ -140,7 +151,7 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
           {activeRun.first_unfinished_step && (
             <div>
               <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                <span className="text-secondary small">Next step:</span>
+                <span className="text-secondary small">Step:</span>
                 <LinkToSoloDb
                   path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
                   text={activeRun.first_unfinished_step.name}
