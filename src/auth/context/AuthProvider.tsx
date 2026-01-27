@@ -37,7 +37,16 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
   }, []);
 
   if (isLoading) {
-    return <>Geting credentials...</>;
+    return (
+      <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 gap-3">
+        <div
+          className="spinner-border text-primary"
+          role="status"
+          aria-label="Loading credentials"
+        />
+        <div className="text-muted">Getting credentials...</div>
+      </div>
+    );
   }
 
   return (
