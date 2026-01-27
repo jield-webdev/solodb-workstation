@@ -5,15 +5,21 @@ import {
   type Equipment,
   type Run,
 } from "@jield/solodb-typescript-core";
-import { SelectRunWithQrScanner } from "@jield/solodb-react-components";
-import { useQueries } from "@tanstack/react-query";
+import {
+  RunStepExecuteMinimal,
+  SelectRunWithQrScanner,
+} from "@jield/solodb-react-components";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
 export const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [equipment, setEquipment] = useState<Equipment | null>();
   const [activeRunId, setActiveRunId] = useState<number | null>(null);
+
+  const queryClient = useQueryClient();
 
   const queries = useQueries({
     queries: [
@@ -28,6 +34,10 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
       },
     ],
   });
+
+  const reloadQueriesByKey = (key: any[]) => {
+    queryClient.refetchQueries({ queryKey: key });
+  };
 
   const [equipmentQuery, runsQuery] = queries;
 
@@ -64,6 +74,8 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     );
   }
 
+  const activeRun = runsToProcess.find((run) => run.id == activeRunId);
+
   return (
     <div>
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
@@ -81,66 +93,70 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
         />
       </div>
 
-      {runsToProcess.length === 0 ? (
-        <div className="border rounded-3 p-4 text-center">
-          <div className="fw-semibold mb-1">Nothing to process right now</div>
-          <div className="text-secondary small">
-            All runs for this equipment are complete or paused.
-          </div>
-        </div>
-      ) : (
+      {/* LIST OF RUNS TO PROCESS */}
+      {!activeRun && (
         <>
-          <ul className="list-unstyled mb-3">
-            {runsToProcess.map((run) => (
-              <li key={run.id} className="mb-2">
-                <button
-                  className={`btn btn-outline-secondary w-100 text-start d-flex align-items-center justify-content-between ${
-                    activeRunId === run.id ? "active" : ""
-                  }`}
-                  onClick={() => setActiveRunId(run.id)}
-                  type="button"
-                >
-                  <span>{run.name}</span>
-                  <span className="badge rounded-pill text-bg-warning text-dark small">
-                    {run.label}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          {/* activeRun && (
-            <div className="border rounded-3 p-3">
-              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-                <div className="d-flex flex-wrap align-items-center gap-2">
-                  <div className="fw-semibold h6 mb-0">
-                    Run: {activeRun.name}
-                  </div>
-                </div>
+          {runsToProcess.length === 0 ? (
+            <div className="border rounded-3 p-4 text-center">
+              <div className="fw-semibold mb-1">
+                Nothing to process right now
               </div>
-
-              { activeRun.first_unfinished_step && (
-                <div>
-                  <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                    <span className="text-secondary small">Next step:</span>
-                    <LinkToSoloDb
-                      path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
-                      text={activeRun.first_unfinished_step.name}
-                    />
-                  </div>
-                  <RunStepExecuteMinimal
-                    run={activeRun}
-                    runStep={activeRun.first_unfinished_step}
-                    showOnlyEmphasizedParameters={false}
-                    reloadRunStepFn={() => {
-                      reloadQueriesByKey(["run", "to_process", equipment?.id]);
-                    }}
-                  />
-                </div>
-              )}
+              <div className="text-secondary small">
+                All runs for this equipment are complete or paused.
+              </div>
             </div>
-          ) */}
+          ) : (
+            <ul className="list-unstyled mb-3">
+              {runsToProcess.map((run) => (
+                <li key={run.id} className="mb-2">
+                  <button
+                    className={`btn btn-outline-secondary w-100 text-start d-flex align-items-center justify-content-between ${
+                      activeRunId === run.id ? "active" : ""
+                    }`}
+                    onClick={() => setActiveRunId(run.id)}
+                    type="button"
+                  >
+                    <span>{run.name}</span>
+                    <span className="badge rounded-pill text-bg-warning text-dark small">
+                      {run.label}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </>
+      )}
+
+      {/* THE STEP TO PROCESS*/}
+      {activeRun && (
+        <div className="border rounded-3 p-3">
+          <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+            <div className="d-flex flex-wrap align-items-center gap-2">
+              <div className="fw-semibold h6 mb-0">Run: {activeRun.name}</div>
+            </div>
+          </div>
+
+          {activeRun.first_unfinished_step && (
+            <div>
+              <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <span className="text-secondary small">Next step:</span>
+                <LinkToSoloDb
+                  path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
+                  text={activeRun.first_unfinished_step.name}
+                />
+              </div>
+              <RunStepExecuteMinimal
+                run={activeRun}
+                runStep={activeRun.first_unfinished_step}
+                showOnlyEmphasizedParameters={false}
+                reloadRunStepFn={() => {
+                  reloadQueriesByKey(["run", "to_process", equipment?.id]);
+                }}
+              />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
