@@ -1,3 +1,5 @@
+import { getCookie } from "../../helpers/coockies";
+
 /**
  * Returns an access token derived from the refresh token.
  * Placeholder implementation for scaffolded auth flow.
@@ -12,7 +14,7 @@ export async function exchangeRefreshToken(refreshToken: string): Promise<string
  * Placeholder for future secure storage integration.
  */
 export function getStoredToken(): string | null {
-    const refreshToken = sessionStorage.getItem("refresh_token"); 
+    const refreshToken = getCookie("refresh_token");; 
 
     // for now the refresh token and the real one will allways be the same
     return refreshToken;
