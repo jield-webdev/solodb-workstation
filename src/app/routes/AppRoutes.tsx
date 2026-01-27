@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "../../components/PrivateRoute";
 import Login from "../pages/Login";
 import UserSession from "../pages/UserSession";
@@ -24,6 +24,7 @@ export function AppRoutes() {
         <Route path="/session" element={<UserSession />} />
       </Route>
 
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
