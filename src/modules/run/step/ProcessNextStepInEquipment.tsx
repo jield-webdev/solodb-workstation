@@ -10,9 +10,10 @@ import {
   RunStepExecuteMinimal,
   SelectRunWithQrScanner,
   ModuleStatusElement,
+  BatchCardElement,
 } from "@jield/solodb-react-components";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
@@ -59,6 +60,11 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
   const isLoading = queries.some((q) => q.isLoading);
   const isError = queries.some((q) => q.isError);
 
+  const activeRun = useMemo(
+    () => runsToProcess.find((run) => run.id == activeRunId),
+    [activeRunId, runsToProcess],
+  );
+
   if (isLoading) {
     return (
       <div className="d-flex align-items-center gap-2 text-secondary">
@@ -79,8 +85,6 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
       </div>
     );
   }
-
-  const activeRun = runsToProcess.find((run) => run.id == activeRunId);
 
   return (
     <div>
@@ -142,20 +146,30 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
       {/* THE STEP TO PROCESS*/}
       {activeRun && (
         <div className="border rounded-3 p-3">
-          <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-            <div className="d-flex flex-wrap align-items-center gap-2">
-              <div className="fw-semibold h6 mb-0">Run: {activeRun.name}</div>
-            </div>
-          </div>
-
           {activeRun.first_unfinished_step && (
-            <div>
-              <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                <span className="text-secondary small">Step:</span>
-                <LinkToSoloDb
-                  path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
-                  text={activeRun.first_unfinished_step.name}
-                />
+            <>
+              <div className="d-flex align-items-start gap-3">
+                <div className="d-flex flex-column">
+                  <h5>
+                    Run:{" "}
+                    <LinkToSoloDb
+                      path={`operator/run/details/${activeRun.id}/steps`}
+                      text={activeRun.name}
+                    />
+                  </h5>
+                  <h5>
+                    Step:{" "}
+                    <LinkToSoloDb
+                      path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
+                      text={activeRun.first_unfinished_step.name}
+                    />
+                  </h5>
+                </div>
+                {activeRun.batch_card !== undefined && (
+                  <div className="flex-grow-1 m-0">
+                    <BatchCardElement run={activeRun} />
+                  </div>
+                )}
               </div>
               <RunStepExecuteMinimal
                 run={activeRun}
@@ -165,7 +179,7 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
                   reloadQueriesByKey(["run", "to_process", equipment?.id]);
                 }}
               />
-            </div>
+            </>
           )}
         </div>
       )}

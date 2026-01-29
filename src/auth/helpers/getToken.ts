@@ -1,4 +1,4 @@
-import { getCookie } from "../../helpers/coockies";
+import { getCookie } from "../../helpers/cookies";
 
 /**
  * Returns an access token derived from the refresh token.
