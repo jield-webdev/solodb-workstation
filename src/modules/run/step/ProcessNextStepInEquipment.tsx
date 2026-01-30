@@ -1,6 +1,7 @@
 import type { ModuleComponent } from "../../ModuleComponent";
 import {
   getEquipment,
+  getEquipmentModule,
   listRuns,
   type Equipment,
   type Run,
@@ -8,9 +9,11 @@ import {
 import {
   RunStepExecuteMinimal,
   SelectRunWithQrScanner,
+  ModuleStatusElement,
+  BatchCardElement,
 } from "@jield/solodb-react-components";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
@@ -32,6 +35,10 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
         queryFn: () =>
           listRuns({ firstUnfinishedStepEquipment: equipment ?? undefined }),
       },
+      {
+        queryKey: ["equipment", equipment?.id],
+        queryFn: () => getEquipmentModule({ id: Number(equipment?.id) }),
+      },
     ],
   });
 
@@ -39,7 +46,7 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     queryClient.refetchQueries({ queryKey: key });
   };
 
-  const [equipmentQuery, runsQuery] = queries;
+  const [equipmentQuery, runsQuery, moduleQuery] = queries;
 
   useEffect(() => {
     if (equipmentQuery.data?.id !== equipment?.id) {
@@ -50,22 +57,13 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
   const runsToProcess =
     runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [];
 
-  // manage run tabs state
-  useEffect(() => {
-    if (runsToProcess.length > 0 && activeRunId === null) {
-      setActiveRunId(runsToProcess[0].id);
-    } else if (runsToProcess.length === 0 && activeRunId !== null) {
-      setActiveRunId(null);
-    } else if (
-      activeRunId !== null &&
-      !runsToProcess.some((run) => run.id === activeRunId)
-    ) {
-      setActiveRunId(runsToProcess[0]?.id ?? null);
-    }
-  }, [runsToProcess, activeRunId]);
-
   const isLoading = queries.some((q) => q.isLoading);
   const isError = queries.some((q) => q.isError);
+
+  const activeRun = useMemo(
+    () => runsToProcess.find((run) => run.id == activeRunId),
+    [activeRunId, runsToProcess],
+  );
 
   if (isLoading) {
     return (
@@ -88,8 +86,6 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
     );
   }
 
-  const activeRun = runsToProcess.find((run) => run.id === activeRunId);
-
   return (
     <div>
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
@@ -99,6 +95,11 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
           </div>
           <div className="h5 mb-1">
             {equipment?.name ?? "Unknown equipment"}
+            {moduleQuery.data && (
+              <span className="ms-2">
+                <ModuleStatusElement module={moduleQuery.data} />
+              </span>
+            )}
           </div>
         </div>
         <SelectRunWithQrScanner
@@ -107,66 +108,80 @@ export const ProcessNextStepInEquipment: ModuleComponent = () => {
         />
       </div>
 
-      {runsToProcess.length === 0 ? (
-        <div className="border rounded-3 p-4 text-center">
-          <div className="fw-semibold mb-1">Nothing to process right now</div>
-          <div className="text-secondary small">
-            All runs for this equipment are complete or paused.
-          </div>
-        </div>
-      ) : (
+      {/* LIST OF RUNS TO PROCESS */}
+      {!activeRun && (
         <>
-          <ul className="nav nav-tabs mb-3">
-            {runsToProcess.map((run) => (
-              <li key={run.id} className="nav-item">
-                <button
-                  className={`nav-link ${activeRunId === run.id ? "active" : ""}`}
-                  onClick={() => setActiveRunId(run.id)}
-                  type="button"
-                >
-                  <div className="d-flex align-items-center gap-2">
+          {runsToProcess.length === 0 ? (
+            <div className="border rounded-3 p-4 text-center">
+              <div className="fw-semibold mb-1">
+                Nothing to process right now
+              </div>
+              <div className="text-secondary small">
+                All runs for this equipment are complete or paused.
+              </div>
+            </div>
+          ) : (
+            <ul className="list-unstyled mb-3">
+              {runsToProcess.map((run) => (
+                <li key={run.id} className="mb-2">
+                  <button
+                    className={`btn btn-outline-secondary w-100 text-start d-flex align-items-center justify-content-between ${
+                      activeRunId === run.id ? "active" : ""
+                    }`}
+                    onClick={() => setActiveRunId(run.id)}
+                    type="button"
+                  >
                     <span>{run.name}</span>
                     <span className="badge rounded-pill text-bg-warning text-dark small">
                       {run.label}
                     </span>
-                  </div>
-                </button>
-              </li>
-            ))}
-          </ul>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
 
-          {activeRun && (
-            <div className="border rounded-3 p-3">
-              <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-                <div className="d-flex flex-wrap align-items-center gap-2">
-                  <div className="fw-semibold h6 mb-0">
-                    Run: {activeRun.name}
-                  </div>
-                </div>
-              </div>
-
-              {activeRun.first_unfinished_step && (
-                <div>
-                  <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                    <span className="text-secondary small">Next step:</span>
+      {/* THE STEP TO PROCESS*/}
+      {activeRun && (
+        <div className="border rounded-3 p-3">
+          {activeRun.first_unfinished_step && (
+            <>
+              <div className="d-flex align-items-start gap-3">
+                <div className="d-flex flex-column">
+                  <h5>
+                    Run:{" "}
+                    <LinkToSoloDb
+                      path={`operator/run/details/${activeRun.id}/steps`}
+                      text={activeRun.name}
+                    />
+                  </h5>
+                  <h5>
+                    Step:{" "}
                     <LinkToSoloDb
                       path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
                       text={activeRun.first_unfinished_step.name}
                     />
-                  </div>
-                  <RunStepExecuteMinimal
-                    run={activeRun}
-                    runStep={activeRun.first_unfinished_step}
-                    showOnlyEmphasizedParameters={false}
-                    reloadRunStepFn={() => {
-                      reloadQueriesByKey(["run", "to_process", equipment?.id]);
-                    }}
-                  />
+                  </h5>
                 </div>
-              )}
-            </div>
+                {activeRun.batch_card !== undefined && (
+                  <div className="flex-grow-1 m-0">
+                    <BatchCardElement run={activeRun} />
+                  </div>
+                )}
+              </div>
+              <RunStepExecuteMinimal
+                run={activeRun}
+                runStep={activeRun.first_unfinished_step}
+                showOnlyEmphasizedParameters={false}
+                reloadRunStepFn={() => {
+                  reloadQueriesByKey(["run", "to_process", equipment?.id]);
+                }}
+              />
+            </>
           )}
-        </>
+        </div>
       )}
     </div>
   );

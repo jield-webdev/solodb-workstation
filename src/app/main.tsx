@@ -4,7 +4,7 @@ import App from "./layout/App";
 import { initConfig } from "../helpers/runtimeConfig";
 
 initConfig({
-  serverUri: "https://solodb-rayleigh.docker.localhost",
+  serverUri: import.meta.env.VITE_BASE_URL,
 });
 
 createRoot(document.getElementById('root')!).render(

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../auth/context/useAuth";
+import { useAuth } from "../../auth/hooks/useAuth";
 import { useParams } from "react-router-dom";
 import type { DeviceSummary } from "../../types/device/deviceSummary";
 import { getDevice } from "../../data/repositories/device/getDevice";
