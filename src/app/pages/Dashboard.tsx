@@ -9,7 +9,7 @@ export default function Dashboard() {
     <div className="container py-4">
       <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
         <div>
-          <h1 className="display-6 mb-1">Solodb Workstation</h1>
+          <h1 className="display-6 mb-1">Equipment Workstation</h1>
           <p className="text-secondary mb-0">
             Demo workspace that highlights devices, modules, and recent activity.
           </p>
