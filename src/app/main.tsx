@@ -4,7 +4,7 @@ import App from "./layout/App";
 import { initConfig } from "../helpers/runtimeConfig";
 
 initConfig({
-  serverUri: "https://solodb-onelab.docker.localhost",
+  serverUri: "https://solodb-rayleigh.docker.localhost",
 });
 
 createRoot(document.getElementById('root')!).render(

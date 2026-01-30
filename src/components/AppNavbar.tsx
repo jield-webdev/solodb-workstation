@@ -17,7 +17,7 @@ export default function AppNavbar() {
     >
       <div className="container">
         <Link className="navbar-brand fw-semibold" to="/dashboard">
-          Solodb Workstation {isElectron ? " Desktop version" : " Web version"}
+          Rayleigh Workstation {isElectron ? " (Desktop)" : " (Web)"}
         </Link>
         <div className="d-flex gap-2">
           <Link className="btn btn-sm btn-outline-light" to="/dashboard">

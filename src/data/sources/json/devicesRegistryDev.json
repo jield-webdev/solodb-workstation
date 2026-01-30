@@ -1,22 +1,22 @@
 [
   {
-    "id": 1,
-    "displayName": "Compressor A-12",
+    "id": 83,
+    "displayName": "PL PixEL- Tau Science",
     "modules": ["ProcessNextStepInEquipment"]
   },
   {
-    "id": 2,
-    "displayName": "Boiler Room Sensor Rack",
+    "id": 79,
+    "displayName": "Scanner - coating (Epson V600)",
     "modules": ["ProcessNextStepInEquipment"]
   },
   {
-    "id": 3,
-    "displayName": "Chiller West Wing",
+    "id": 81,
+    "displayName": "Guillotine cutter",
     "modules": []
   },
   {
-    "id": 4,
-    "displayName": "Fleet Tracker Unit 7",
+    "id": 82,
+    "displayName": "Manual sheeting",
     "modules": ["ProcessNextStepInEquipment"]
   }
 ]
