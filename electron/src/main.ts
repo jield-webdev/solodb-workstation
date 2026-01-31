@@ -4,25 +4,24 @@ import { fileURLToPath } from 'node:url'
 import { setupIPCListeners } from './setup-ipc';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const appRoot = path.join(__dirname, '..');
+const appRoot = path.join(__dirname, '..', '..');
 
 process.env.APP_ROOT = appRoot;
 
-export const MAIN_DIST = path.join(appRoot, 'dist-electron');
-export const RENDERER_DIST = path.join(appRoot, 'dist');
-
 export let mainWindow: BrowserWindow | null = null;
+const devServerUrl = process.env.VITE_DEV_SERVER_URL ?? 'http://localhost:5173/';
+const preloadPath = path.join(appRoot, '.vite/preload/preload.cjs');
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: preloadPath,
     },
   })
 
-  mainWindow.loadFile(path.join(RENDERER_DIST, 'index.html'))
+    mainWindow.loadURL(devServerUrl);
 }
 
 function initializeApp(): void {
