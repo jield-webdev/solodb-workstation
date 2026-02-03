@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import type { ElectronAPI } from "./electronApi";
+import type { ElectronAPI } from "../../src/types/electronApi";
 
 // HOW TO EXPOSE FUNCTIONS TO THE ELECTRON API:
 
@@ -9,9 +9,10 @@ import type { ElectronAPI } from "./electronApi";
 
 const api: ElectronAPI = {
     isElectronActive: () => ipcRenderer.invoke('isElectronActive'),
+    getRefreshToken: () => ipcRenderer.invoke("getRefreshToken"),
+    setRefreshToken: (token: string) => ipcRenderer.invoke("setRefreshToken", token),
 }
 
 // Expose the 'electronAPI' object to the global window object of the renderer process,
 // allowing the renderer to safely access the API functions.
 contextBridge.exposeInMainWorld("electronAPI", api);
-

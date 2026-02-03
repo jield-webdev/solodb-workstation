@@ -1,9 +1,5 @@
 export interface ElectronAPI {
   isElectronActive: () => Promise<boolean>;
-}
-
-declare global {
-  interface Window {
-    electronAPI: ElectronAPI;
-  }
+  getRefreshToken: () => Promise<string | null>;
+  setRefreshToken: (token: string) => Promise<void>;
 }

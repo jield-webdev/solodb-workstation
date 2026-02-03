@@ -14,26 +14,27 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
   const authMethod = AuthMethod.HARDCODED_TOKEN;
 
   useEffect(() => {
-    const refreshToken = getStoredToken();
-    if (refreshToken === null) {
-      setIsLoading(false);
-      return;
-    }
+    getStoredToken().then((refreshToken) => {
+      if (refreshToken === null) {
+        setIsLoading(false);
+        return;
+      }
 
-    exchangeRefreshToken(refreshToken)
-      .then((token) => {
-        if (token === null) {
-          return;
-        }
-        configureAxiosHeaders(token, getServerUri());
-      })
-      .finally(() => {
-        getMe()
-          .then(setUser)
-          .finally(() => {
-            setIsLoading(false);
-          });
-      });
+      exchangeRefreshToken(refreshToken)
+        .then((token) => {
+          if (token === null) {
+            return;
+          }
+          configureAxiosHeaders(token, getServerUri());
+        })
+        .finally(() => {
+          getMe()
+            .then(setUser)
+            .finally(() => {
+              setIsLoading(false);
+            });
+        });
+    });
   }, []);
 
   if (isLoading) {
