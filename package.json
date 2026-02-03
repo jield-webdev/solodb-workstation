@@ -10,10 +10,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "preview": "yarn build && vite preview",
     "lint": "eslint .",
     "test": "vitest run",
-    "electron:build": "electron-forge make",
-    "electron:dev": "electron-forge start"
+    "electron:build": "yarn build && electron-forge make",
+    "electron:dev": "vite build --config electron/vite.renderer.config.ts && electron-forge start"
   },
   "dependencies": {
     "@electron-forge/maker-deb": "^7.11.1",

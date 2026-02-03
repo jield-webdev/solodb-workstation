@@ -1,7 +1,10 @@
-import { app, BrowserWindow } from 'electron'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { setupIPCListeners } from './setup-ipc';
+import { app, BrowserWindow } from "electron";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { setupIPCListeners } from "./setup-ipc";
+
+//declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
+//declare const MAIN_WINDOW_VITE_NAME: string;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.join(__dirname, '..', '..');
@@ -9,24 +12,38 @@ const appRoot = path.join(__dirname, '..', '..');
 process.env.APP_ROOT = appRoot;
 
 export let mainWindow: BrowserWindow | null = null;
-const devServerUrl = process.env.VITE_DEV_SERVER_URL ?? 'http://localhost:5173/';
-const preloadPath = path.join(appRoot, '.vite/preload/preload.cjs');
 
-function createWindow() {
+async function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: preloadPath,
+      preload: path.join(__dirname, "..", "preload", "preload.cjs"),
     },
-  })
+  });
 
-    mainWindow.loadURL(devServerUrl);
+  // ONLY FOR WHEN HOT RELOADING IS REQUIRED
+  //if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+  //  await mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  //  return;
+  //}
+  //
+  console.log(path.join(__dirname, "..", "preload", "preload.cjs"));
+
+  await mainWindow.loadFile(
+    path.join(__dirname, "..", "..", "dist", "electron", "index.html")
+  );
 }
 
-function initializeApp(): void {
-    setupIPCListeners();
-    createWindow();
+function initializeApp() {
+  setupIPCListeners();
+  createWindow();
 }
 
-app.whenReady().then(initializeApp)
+app.whenReady().then(initializeApp);
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});

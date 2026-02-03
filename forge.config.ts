@@ -4,30 +4,38 @@ import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
 import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
 import { VitePlugin } from '@electron-forge/plugin-vite';
+import type { ForgeConfig } from '@electron-forge/shared-types';
 
-const config = {
+const makers = [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerDeb({})];
+
+if (process.env.BUILD_RPM === 'true') {
+  makers.push(new MakerRpm({}));
+}
+
+const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers,
+  outDir: "electron-out",
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new VitePlugin({
       build: [
         {
           entry: 'electron/src/main.ts',
-          config: 'electron.main.config.ts',
+          config: './electron.main.config.ts',
         },
         {
           entry: 'electron/src/preload.ts',
-          config: 'electron.preload.config.ts',
+          config: './electron.preload.config.ts',
         },
       ],
       renderer: [
         {
           name: 'main_window',
-          config: 'electron.renderer.config.ts',
+          config: 'electron/vite.renderer.config.ts',
         },
       ],
     }),
