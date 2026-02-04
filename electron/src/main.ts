@@ -3,8 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { setupIPCListeners } from "./setup-ipc";
 
-//declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
-//declare const MAIN_WINDOW_VITE_NAME: string;
+declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
+declare const MAIN_WINDOW_VITE_NAME: string;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.join(__dirname, '..', '..');
@@ -22,16 +22,13 @@ async function createWindow() {
     },
   });
 
-  // ONLY FOR WHEN HOT RELOADING IS REQUIRED
-  //if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-  //  await mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-  //  return;
-  //}
-  //
-  console.log(path.join(__dirname, "..", "preload", "preload.cjs"));
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    await mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    return;
+  }
 
   await mainWindow.loadFile(
-    path.join(__dirname, "..", "..", "dist", "electron", "index.html")
+    path.join(__dirname, "..", "renderer", MAIN_WINDOW_VITE_NAME, "index.html")
   );
 }
 

@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     build: {
-      outDir: "dist/web",
+      outDir: "dist",
     },
     resolve: {
       // Path aliases for cleaner imports
