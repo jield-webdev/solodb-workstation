@@ -18,18 +18,18 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers,
-  outDir: "electron-out",
+  outDir: "dist/electron",
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new VitePlugin({
       build: [
         {
           entry: 'electron/src/main.ts',
-          config: './electron.main.config.ts',
+          config: 'electron/vite.main.config.ts',
         },
         {
           entry: 'electron/src/preload.ts',
-          config: './electron.preload.config.ts',
+          config: 'electron/vite.preload.config.ts',
         },
       ],
       renderer: [

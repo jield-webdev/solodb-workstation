@@ -7,7 +7,7 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, "electron/src/main.ts"),
+      entry: path.resolve(__dirname, "src/main.ts"),
       formats: ["es"],
     },
     rollupOptions: {
