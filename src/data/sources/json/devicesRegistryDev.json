@@ -2,7 +2,7 @@
   {
     "id": 1,
     "displayName": "Compressor A-12",
-    "modules": ["ProcessNextStepInEquipment"]
+    "modules": ["ProcessNextStepInEquipment", "Iris"]
   },
   {
     "id": 2,
@@ -12,7 +12,7 @@
   {
     "id": 3,
     "displayName": "Chiller West Wing",
-    "modules": ["ProcessNextStepInEquipment"]
+    "modules": ["ProcessNextStepInEquipment", "Iris"]
   },
   {
     "id": 4,

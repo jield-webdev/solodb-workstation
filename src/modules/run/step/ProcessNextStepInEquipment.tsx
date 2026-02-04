@@ -17,7 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
-export const ProcessNextStepInEquipment: ModuleComponent = () => {
+const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [equipment, setEquipment] = useState<Equipment | null>();
   const [activeRunId, setActiveRunId] = useState<number | null>(null);
