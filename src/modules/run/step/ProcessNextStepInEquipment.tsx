@@ -90,7 +90,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     <div>
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
         <div>
-          <div className="text-uppercase small text-secondary">
+          <div className="small text-secondary">
             Process next step in equipment:
           </div>
           <div className="h5 mb-1">

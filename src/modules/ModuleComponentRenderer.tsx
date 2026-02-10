@@ -1,20 +1,24 @@
-import { Suspense } from "react";
-import { componentImports } from "./moduleComponentsImports";
+import {Suspense} from "react";
+import {componentImports} from "./moduleComponentsImports";
+
 
 interface Props {
-  moduleName: string;
+    moduleName: string;
 }
 
-export default function ModuleComponentRenderer({ moduleName }: Props) {
-  const Component = componentImports[moduleName];
+export default function ModuleComponentRenderer({moduleName}: Props) {
+    const Component = componentImports[moduleName];
 
-  if (!Component) {
-    return <div>Component not found</div>;
-  }
+    console.log(componentImports);
+    console.log(moduleName);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Component />
-    </Suspense>
-  );
+    if (!Component) {
+        return <div>Component not found</div>;
+    }
+
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Component/>
+        </Suspense>
+    );
 }
