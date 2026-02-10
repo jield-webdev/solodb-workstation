@@ -995,21 +995,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-typescript-core@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@jield/solodb-typescript-core@npm:1.0.5"
-  peerDependencies:
-    axios: ^1.13.2
-  checksum: 10c0/67dec7ae91f33e0ea321c37774dc079a9a1b2a862e75dfda9bbe301b125831c9edd7058463a76557c428f6a5179301fb80d4da0cac5dfdfc20d9bc899660f503
-  languageName: node
-  linkType: hard
-
 "@jield/solodb-typescript-core@npm:^1.0.6":
   version: 1.0.6
   resolution: "@jield/solodb-typescript-core@npm:1.0.6"
   peerDependencies:
     axios: ^1.13.2
   checksum: 10c0/b9f7795534d6ec1258028fc0bf410ef1d591ea868d6bbeafbed9080adb1dc9ed8c6d88fc746485dd244d1af3e01d3d7a804c06182093ebe8915a81502f4f5511
+  languageName: node
+  linkType: hard
+
+"@jield/solodb-typescript-core@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "@jield/solodb-typescript-core@npm:1.0.8"
+  peerDependencies:
+    axios: ^1.13.2
+  checksum: 10c0/d7ee481b0b6e1bda3d8532605fde9205051245ec04aa6e1532dd0f6c790f98860cdbdbe5c80ed71158b866b5cbd3585fbd031690ec3144e59699f9f43168aea4
   languageName: node
   linkType: hard
 
@@ -6881,7 +6881,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.39.1"
     "@jield/solodb-react-components": "npm:^1.0.12"
-    "@jield/solodb-typescript-core": "npm:^1.0.5"
+    "@jield/solodb-typescript-core": "npm:^1.0.8"
     "@tanstack/react-query": "npm:~5.90.11"
     "@tanstack/react-table": "npm:^8.21"
     "@testing-library/jest-dom": "npm:^6.9.1"

@@ -17,7 +17,7 @@ export default function AppNavbar() {
       className="navbar navbar-expand-lg bg-dark border-bottom border-dark"
       data-bs-theme="dark"
     >
-      <div className="container">
+      <div className="container-fluid">
         <Link className="navbar-brand fw-semibold" to="/dashboard">
           Rayleigh Workstation {isElectron ? " (Desktop)" : " (Web)"}
         </Link>
