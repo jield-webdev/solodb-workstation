@@ -1481,11 +1481,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-react-components@npm:^1.0.12":
-  version: 1.0.12
-  resolution: "@jield/solodb-react-components@npm:1.0.12"
+"@jield/solodb-react-components@npm:^1.0.15":
+  version: 1.0.15
+  resolution: "@jield/solodb-react-components@npm:1.0.15"
   dependencies:
-    "@jield/solodb-typescript-core": "npm:^1.0.6"
+    "@jield/solodb-typescript-core": "npm:^1.0.8"
     "@testing-library/dom": "npm:^10.4.1"
     moment: "npm:^2.30.1"
     moment-timezone: "npm:^0.6.0"
@@ -1505,16 +1505,7 @@ __metadata:
     react: ^19
     react-dom: ^19
     react-router-dom: ^7.9
-  checksum: 10c0/2ef0361a7cd5470751fe85d5f1da1ace402a9a07fa4ebd7cf981d9033977b5aee0f9c8a6a1e98cf72ab0a450e94152abf9864802232003c62a6c34341a714729
-  languageName: node
-  linkType: hard
-
-"@jield/solodb-typescript-core@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "@jield/solodb-typescript-core@npm:1.0.6"
-  peerDependencies:
-    axios: ^1.13.2
-  checksum: 10c0/b9f7795534d6ec1258028fc0bf410ef1d591ea868d6bbeafbed9080adb1dc9ed8c6d88fc746485dd244d1af3e01d3d7a804c06182093ebe8915a81502f4f5511
+  checksum: 10c0/3d921019479446b980ed583bfbcdaaac4e813e3be8d40603aa9e4b3f74b9dd070ba035e714b6f2582553008bc8acac9c69061aa4dfe9b27dbb98e936100bb566
   languageName: node
   linkType: hard
 
@@ -8455,7 +8446,7 @@ __metadata:
     "@electron-forge/plugin-auto-unpack-natives": "npm:^7.11.1"
     "@electron-forge/plugin-vite": "npm:^7.11.1"
     "@eslint/js": "npm:^9.39.1"
-    "@jield/solodb-react-components": "npm:^1.0.12"
+    "@jield/solodb-react-components": "npm:^1.0.15"
     "@jield/solodb-typescript-core": "npm:^1.0.8"
     "@tanstack/react-query": "npm:~5.90.11"
     "@tanstack/react-table": "npm:^8.21"

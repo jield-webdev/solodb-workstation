@@ -9,9 +9,6 @@ interface Props {
 export default function ModuleComponentRenderer({moduleName}: Props) {
     const Component = componentImports[moduleName];
 
-    console.log(componentImports);
-    console.log(moduleName);
-
     if (!Component) {
         return <div>Component not found</div>;
     }

@@ -8,12 +8,12 @@ import {
 } from "@jield/solodb-typescript-core";
 import {
   RunStepExecuteMinimal,
-  SelectRunWithQrScanner,
+  NavigateInRunWithQrScanner,
   ModuleStatusElement,
   BatchCardElement,
 } from "@jield/solodb-react-components";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
@@ -47,6 +47,16 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   };
 
   const [equipmentQuery, runsQuery, moduleQuery] = queries;
+
+  // handle selecting runStepParts 
+  const toggleRunStepPartRef = useRef<{
+    setPart: (part: number) => void;
+  } | null>(null);
+
+  // handle selecting runStepParts
+  const toggleRunPartRef = useRef<{
+    setPart: (part: number) => void;
+  } | null>(null);
 
   useEffect(() => {
     if (equipmentQuery.data?.id !== equipment?.id) {
@@ -102,9 +112,11 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
             )}
           </div>
         </div>
-        <SelectRunWithQrScanner
+        <NavigateInRunWithQrScanner
           setRun={(run: Run) => setActiveRunId(run.id)}
           runsList={runsToProcess}
+          setRunStepPartId={(part: number) => toggleRunStepPartRef.current?.setPart(part)}
+          setRunPartId={(part: number) => toggleRunPartRef.current?.setPart(part)}
         />
       </div>
 
@@ -178,6 +190,8 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
                 reloadRunStepFn={() => {
                   reloadQueriesByKey(["run", "to_process", equipment?.id]);
                 }}
+                toggleRunStepPartRef={toggleRunStepPartRef}
+                toggleRunPartRef={toggleRunPartRef}
               />
             </>
           )}
