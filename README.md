@@ -12,23 +12,14 @@ The application allows operators to authenticate using multiple methods and to p
 
 ## 3. Authentication
 
-The application supports multiple authentication methods, including:
+Authentication is currently scaffolded with a mock login flow backed by a development token (`VITE_DEV_AUTH_TOKEN`).
+`AuthProvider` reads the stored refresh token (cookie or Electron storage), exchanges it for an access token, and then loads the current user via the SoloDB API.
 
-- OAuth  
-- Goldstein  
-- SoloDB native login  
-
-Authentication state is managed centrally using a shared **React Context** for all authentication methods.  
-This context exposes a unified interface (`AuthProvider`) to the rest of the application, abstracting and hiding the implementation details from individual modules.
+Future authentication methods (OAuth, Goldstein, SoloDB native login) can be added behind the same `AuthProvider` interface.
 
 ## 4. Routing and Device Access
 
-By default, the application starts at the `/login` route, where the operator can authenticate using any of the supported methods.
-
-After a successful login:
-
-- If the authentication method supports it and a valid return route exists, the user is redirected to `/device/:id`.
-- Otherwise, the user is redirected to `/dashboard`.
+The application boots at `/` and immediately redirects to `/dashboard`. Unauthenticated users are redirected to `/login` by the private route guard.
 
 Devices are accessed using routes following the pattern:
 
@@ -36,16 +27,13 @@ Devices are accessed using routes following the pattern:
 /device/:id
 ```
 
-When accessing a device route, the application invokes the following function:
+When accessing a device route, the application loads the equipment record from the SoloDB API:
 
 ```ts
-getDevice(deviceId, userContext)
+getEquipment({ id: Number(id) })
 ```
 
-This function returns a `DeviceSummary`, including the device metadata and the list of module IDs that must be loaded for the specified device, taking into account both the device configuration and the user’s permissions.
-
-In the initial implementation, this information is obtained from a static JSON file.  
-The architecture is designed so that this data source can later be replaced by an API call without impacting the rest of the application.
+The resulting `Equipment` object drives the UI. Modules rendered on the device page are taken from `equipment.dashboard_components`.
 
 ## 5. Module System
 
@@ -57,7 +45,7 @@ All available modules reside in the following directory:
 src/modules/
 ```
 
-Modules are explicitly registered in a `moduleRegistry`, which acts as a whitelist of available modules.
+Modules are explicitly registered in `componentImports` (`src/modules/moduleComponentsImports.ts`), which acts as a whitelist of available modules.
 
 ## 6. Electron Integration
 

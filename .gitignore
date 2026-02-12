@@ -26,4 +26,7 @@ dist-electron
 *.sln
 *.sw?
 
+.vite/
+out/
+electron-out/
 AGENTS.md
