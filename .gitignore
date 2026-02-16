@@ -29,4 +29,3 @@ dist-electron
 .vite/
 out/
 electron-out/
-AGENTS.md
