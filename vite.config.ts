@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import type {} from "vitest/config";
 
 // https://vite.dev/config/
-// @ts-ignore
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const useLocalSolodb = env.VITE_USE_LOCAL_SOLODB === "true";
@@ -12,6 +11,14 @@ export default defineConfig(({ mode }) => {
     path.join(__dirname, "../solodb-react-components"),
     path.join(__dirname, "../solodb-typescript-core"),
   ];
+  const aliases = useLocalSolodb
+    ? {
+        // In development, override the @ alias to point to the main src
+        // Use local source code for these libraries
+        "@jield/solodb-react-components": path.join(localSolodbRoots[0], "src"),
+        "@jield/solodb-typescript-core": path.join(localSolodbRoots[1], "src"),
+      }
+    : undefined;
 
   return {
     plugins: [react()],
@@ -20,21 +27,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       // Path aliases for cleaner imports
-      alias:
-        useLocalSolodb
-          ? {
-              // In development, override the @ alias to point to the main src
-              // Use local source code for these libraries
-              "@jield/solodb-react-components": path.join(
-                localSolodbRoots[0],
-                "src"
-              ),
-              "@jield/solodb-typescript-core": path.join(
-                localSolodbRoots[1],
-                "src"
-              ),
-            }
-          : {},
+      alias: aliases,
       // Ensure only one copy of React is used (prevents "invalid hook call" errors)
       dedupe: ["react", "react-dom"],
     },

@@ -3,7 +3,6 @@ import {
   getEquipment,
   getEquipmentModule,
   listRuns,
-  type Equipment,
   type Run,
 } from "@jield/solodb-typescript-core";
 import {
@@ -12,41 +11,49 @@ import {
   ModuleStatusElement,
   BatchCardElement,
 } from "@jield/solodb-react-components";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useQueries,
+  useQuery,
+  useQueryClient,
+  type QueryKey,
+} from "@tanstack/react-query";
+import { useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 
 const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
-  const [equipment, setEquipment] = useState<Equipment | null>();
   const [activeRunId, setActiveRunId] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
 
-  const queries = useQueries({
+  const equipmentQuery = useQuery({
+    queryKey: ["equipment", id],
+    queryFn: () => getEquipment({ id: Number(id) }),
+    enabled: Boolean(id),
+  });
+
+  const equipment = equipmentQuery.data;
+
+  const [runsQuery, moduleQuery] = useQueries({
     queries: [
-      {
-        queryKey: ["equipment", id],
-        queryFn: () => getEquipment({ id: Number(id) }),
-      },
       {
         queryKey: ["run", "to_process", equipment?.id],
         queryFn: () =>
           listRuns({ firstUnfinishedStepEquipment: equipment ?? undefined }),
+        enabled: Boolean(equipment),
       },
       {
         queryKey: ["equipment", equipment?.id],
         queryFn: () => getEquipmentModule({ id: Number(equipment?.id) }),
+        enabled: Boolean(equipment?.id),
       },
     ],
   });
 
-  const reloadQueriesByKey = (key: any[]) => {
+  const reloadQueriesByKey = (key: QueryKey) => {
     queryClient.refetchQueries({ queryKey: key });
   };
-
-  const [equipmentQuery, runsQuery, moduleQuery] = queries;
 
   // handle selecting runStepParts 
   const toggleRunStepPartRef = useRef<{
@@ -58,17 +65,14 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     setPart: (part: number) => void;
   } | null>(null);
 
-  useEffect(() => {
-    if (equipmentQuery.data?.id !== equipment?.id) {
-      setEquipment(equipmentQuery.data);
-    }
-  }, [equipmentQuery]);
+  const runsToProcess = useMemo(
+    () => runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [],
+    [runsQuery.data],
+  );
 
-  const runsToProcess =
-    runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [];
-
-  const isLoading = queries.some((q) => q.isLoading);
-  const isError = queries.some((q) => q.isError);
+  const isLoading =
+    equipmentQuery.isLoading || runsQuery.isLoading || moduleQuery.isLoading;
+  const isError = equipmentQuery.isError || runsQuery.isError || moduleQuery.isError;
 
   const activeRun = useMemo(
     () => runsToProcess.find((run) => run.id == activeRunId),

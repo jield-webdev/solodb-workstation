@@ -1,26 +1,20 @@
-import {useEffect, useState} from "react";
 import {useAuth} from "../../auth/hooks/useAuth";
 import {useParams} from "react-router-dom";
 import ModuleComponentRenderer from "../../modules/ModuleComponentRenderer";
 import {type Equipment, getEquipment} from "@jield/solodb-typescript-core";
+import {useQuery} from "@tanstack/react-query";
 
 export default function Device() {
     const {user} = useAuth();
     const {id} = useParams();
 
-    const [equipment, setEquipment] = useState<Equipment | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const {data, isLoading, isError, error} = useQuery({
+        queryKey: ["equipment", id],
+        queryFn: () => getEquipment({'id': Number(id)}),
+        enabled: Boolean(user && id),
+    });
 
-    useEffect(() => {
-        if (!user || !id) return;
-        setIsLoading(true);
-        setError(null);
-        getEquipment({'id': Number(id)})
-            .then(setEquipment)
-            .catch((err: Error) => setError(err.message))
-            .finally(() => setIsLoading(false));
-    }, [user, id]);
+    const equipment: Equipment | null = data ?? null;
 
     return (
         <div className="container-fluid py-4">
@@ -43,9 +37,9 @@ export default function Device() {
                 </div>
             )}
 
-            {error && (
+            {isError && (
                 <div className="alert alert-danger" role="alert">
-                    {error}
+                    {error instanceof Error ? error.message : "Could not load device."}
                 </div>
             )}
 

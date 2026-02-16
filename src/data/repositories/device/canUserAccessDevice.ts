@@ -1,5 +1,7 @@
 import type { User } from "@jield/solodb-typescript-core";
 
-export function canUserAccessDevice(_deviceId: number, _user: User): boolean {
+export function canUserAccessDevice(deviceId: number, user: User): boolean {
+    void deviceId;
+    void user;
     return true;
 }

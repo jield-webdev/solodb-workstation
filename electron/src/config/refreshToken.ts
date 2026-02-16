@@ -10,7 +10,7 @@ export async function getRefreshToken(): Promise<string | null> {
 }
 
 export async function setRefreshToken(token: string) {
-  let conf = (await getConfiguration()) ?? ({} as EncryptedConfigInterface);
+  const conf = (await getConfiguration()) ?? ({} as EncryptedConfigInterface);
   conf.refresh_token = token;
   saveConfiguration(conf);
 }
