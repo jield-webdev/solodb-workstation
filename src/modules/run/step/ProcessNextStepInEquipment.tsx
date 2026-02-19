@@ -55,14 +55,10 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     queryClient.refetchQueries({ queryKey: key });
   };
 
-  // handle selecting runStepParts 
-  const toggleRunStepPartRef = useRef<{
-    setPart: (part: number) => void;
-  } | null>(null);
-
   // handle selecting runStepParts
   const toggleRunPartRef = useRef<{
     setPart: (part: number) => void;
+    setPartByLabel: (label: string) => void;
   } | null>(null);
 
   const runsToProcess = useMemo(
@@ -119,8 +115,8 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
         <NavigateInRunWithQrScanner
           setRun={(run: Run) => setActiveRunId(run.id)}
           runsList={runsToProcess}
-          setRunStepPartId={(part: number) => toggleRunStepPartRef.current?.setPart(part)}
           setRunPartId={(part: number) => toggleRunPartRef.current?.setPart(part)}
+          setRunPartLabel={(label: string) => toggleRunPartRef.current?.setPartByLabel(label)}
         />
       </div>
 
@@ -194,7 +190,6 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
                 reloadRunStepFn={() => {
                   reloadQueriesByKey(["run", "to_process", equipment?.id]);
                 }}
-                toggleRunStepPartRef={toggleRunStepPartRef}
                 toggleRunPartRef={toggleRunPartRef}
               />
             </>
