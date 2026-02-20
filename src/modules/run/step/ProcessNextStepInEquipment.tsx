@@ -20,6 +20,7 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
+import { waitUntilNotNullish } from "../../../helpers/waitUntilNotNullish";
 
 const ProcessNextStepInEquipment: ModuleComponent = () => {
   const { id } = useParams<{ id: string }>();
@@ -75,6 +76,12 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     [activeRunId, runsToProcess],
   );
 
+  const setRunPartByLabel = async (label: string) => {
+    await waitUntilNotNullish(() => toggleRunPartRef.current); 
+    toggleRunPartRef.current?.setPartByLabel(label)
+    console.log(toggleRunPartRef.current);
+  };
+
   if (isLoading) {
     return (
       <div className="d-flex align-items-center gap-2 text-secondary">
@@ -116,7 +123,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
           setRun={(run: Run) => setActiveRunId(run.id)}
           runsList={runsToProcess}
           setRunPartId={(part: number) => toggleRunPartRef.current?.setPart(part)}
-          setRunPartLabel={(label: string) => toggleRunPartRef.current?.setPartByLabel(label)}
+          setRunPartLabel={setRunPartByLabel}
         />
       </div>
 
