@@ -1,24 +1,24 @@
 import ModuleComponentRenderer from "../../modules/ModuleComponentRenderer";
-import {useDevice} from "../../device/hooks/useDevice.ts";
+import { useDevice } from "../../device/hooks/useDevice.ts";
+import { ModuleStatusElement } from "@jield/solodb-react-components";
 
 export default function Device() {
-    const {deviceId, deviceName, equipment, equipmentModule, dashboardComponents} = useDevice();
+  const { deviceName, equipmentModule, dashboardComponents } = useDevice();
 
   return (
     <div className="container-fluid py-4">
-      <div>
-        <h1 className="display-6 mb-1">
-          {deviceName ?? "Loading device..."}
-        </h1>
+      <div className="d-flex align-items-start">
+        <h1 className="display-6 mb-2">{deviceName ?? "Loading device..."}</h1>
+        {equipmentModule && <ModuleStatusElement module={equipmentModule} />}
       </div>
 
       <div className="row">
         <div className="col-lg">
           <div className="card shadow-sm">
             <div className="card-body">
-              {equipment?.dashboard_components.length ? (
+              {dashboardComponents?.length ? (
                 <div className="row g-3">
-                  {equipment.dashboard_components.map((moduleName) => (
+                  {dashboardComponents.map((moduleName) => (
                     <ModuleComponentRenderer
                       moduleName={moduleName.valueOf()}
                     />
