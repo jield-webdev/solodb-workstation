@@ -79,7 +79,6 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   const setRunPartByLabel = async (label: string) => {
     await waitUntilNotNullish(() => toggleRunPartRef.current); 
     toggleRunPartRef.current?.setPartByLabel(label)
-    console.log(toggleRunPartRef.current);
   };
 
   if (isLoading) {
@@ -175,6 +174,8 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
                       path={`operator/run/details/${activeRun.id}/steps`}
                       text={activeRun.name}
                     />
+                    {" "}
+                    <span>({activeRun.label})</span>
                   </h5>
                   <h5>
                     Step:{" "}
