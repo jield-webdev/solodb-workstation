@@ -20,6 +20,7 @@ export default function Device() {
                 <div className="row g-3">
                   {dashboardComponents.map((moduleName) => (
                     <ModuleComponentRenderer
+                      key={`${moduleName}:${deviceName}`}
                       moduleName={moduleName.valueOf()}
                     />
                   ))}
