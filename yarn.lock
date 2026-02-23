@@ -1518,6 +1518,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jield/solodb-typescript-core@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@jield/solodb-typescript-core@npm:1.0.9"
+  peerDependencies:
+    axios: ^1.13.2
+  checksum: 10c0/c91021e1045cc79e5168b5765a317c76741aa482d81a55c649eeadc62d0392d0c8a6fddfcaecfb62b999da24513dc00877d9e47a23ec1e2eb50accf1ada50a98
+  languageName: node
+  linkType: hard
+
 "@jridgewell/gen-mapping@npm:^0.3.12, @jridgewell/gen-mapping@npm:^0.3.5":
   version: 0.3.13
   resolution: "@jridgewell/gen-mapping@npm:0.3.13"
@@ -8447,7 +8456,7 @@ __metadata:
     "@electron-forge/plugin-vite": "npm:^7.11.1"
     "@eslint/js": "npm:^9.39.1"
     "@jield/solodb-react-components": "npm:^1.0.16"
-    "@jield/solodb-typescript-core": "npm:^1.0.8"
+    "@jield/solodb-typescript-core": "npm:^1.0.9"
     "@tanstack/react-query": "npm:~5.90.11"
     "@tanstack/react-table": "npm:^8.21"
     "@testing-library/jest-dom": "npm:^6.9.1"

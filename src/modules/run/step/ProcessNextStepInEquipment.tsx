@@ -1,53 +1,37 @@
 import type { ModuleComponent } from "../../ModuleComponent";
 import {
-  getEquipment,
-  getEquipmentModule,
   listRuns,
   type Run,
 } from "@jield/solodb-typescript-core";
 import {
   RunStepExecuteMinimal,
   NavigateInRunWithQrScanner,
-  ModuleStatusElement,
   BatchCardElement,
 } from "@jield/solodb-react-components";
 import {
   useQueries,
-  useQuery,
   useQueryClient,
   type QueryKey,
 } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 import { waitUntilNotNullish } from "../../../helpers/waitUntilNotNullish";
+import {useDevice} from "../../../device/hooks/useDevice.ts";
 
 const ProcessNextStepInEquipment: ModuleComponent = () => {
-  const { id } = useParams<{ id: string }>();
+  const { equipment } = useDevice();
+
   const [activeRunId, setActiveRunId] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
 
-  const equipmentQuery = useQuery({
-    queryKey: ["equipment", id],
-    queryFn: () => getEquipment({ id: Number(id) }),
-    enabled: Boolean(id),
-  });
-
-  const equipment = equipmentQuery.data;
-
-  const [runsQuery, moduleQuery] = useQueries({
+  const [runsQuery] = useQueries({
     queries: [
       {
         queryKey: ["run", "to_process", equipment?.id],
         queryFn: () =>
           listRuns({ firstUnfinishedStepEquipment: equipment ?? undefined }),
         enabled: Boolean(equipment),
-      },
-      {
-        queryKey: ["equipment", equipment?.id],
-        queryFn: () => getEquipmentModule({ id: Number(equipment?.id) }),
-        enabled: Boolean(equipment?.id),
       },
     ],
   });
@@ -63,13 +47,13 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   } | null>(null);
 
   const runsToProcess = useMemo(
-    () => runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [],
+    () =>
+      runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [],
     [runsQuery.data],
   );
 
-  const isLoading =
-    equipmentQuery.isLoading || runsQuery.isLoading || moduleQuery.isLoading;
-  const isError = equipmentQuery.isError || runsQuery.isError || moduleQuery.isError;
+  const isLoading = runsQuery.isLoading;
+  const isError = runsQuery.isError;
 
   const activeRun = useMemo(
     () => runsToProcess.find((run) => run.id == activeRunId),
@@ -77,8 +61,8 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   );
 
   const setRunPartByLabel = async (label: string) => {
-    await waitUntilNotNullish(() => toggleRunPartRef.current); 
-    toggleRunPartRef.current?.setPartByLabel(label)
+    await waitUntilNotNullish(() => toggleRunPartRef.current);
+    toggleRunPartRef.current?.setPartByLabel(label);
   };
 
   if (isLoading) {
@@ -103,27 +87,19 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   }
 
   return (
-    <div>
+    <div className="p-3">
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
-        <div>
-          <div className="small text-secondary">
-            Process next step in equipment:
-          </div>
-          <div className="h5 mb-1">
-            {equipment?.name ?? "Unknown equipment"}
-            {moduleQuery.data && (
-              <span className="ms-2">
-                <ModuleStatusElement module={moduleQuery.data} />
-              </span>
-            )}
-          </div>
-        </div>
         <NavigateInRunWithQrScanner
           setRun={(run: Run) => setActiveRunId(run.id)}
           runsList={runsToProcess}
-          setRunPartId={(part: number) => toggleRunPartRef.current?.setPart(part)}
+          setRunPartId={(part: number) =>
+            toggleRunPartRef.current?.setPart(part)
+          }
           setRunPartLabel={setRunPartByLabel}
         />
+        <div className="medium text-secondary">
+          Process next step in equipment
+        </div>
       </div>
 
       {/* LIST OF RUNS TO PROCESS */}
@@ -163,7 +139,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
 
       {/* THE STEP TO PROCESS*/}
       {activeRun && (
-        <div className="border rounded-3 p-3">
+        <div className="bg-body-primary">
           {activeRun.first_unfinished_step && (
             <>
               <div className="d-flex align-items-start gap-3">
@@ -173,8 +149,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
                     <LinkToSoloDb
                       path={`operator/run/details/${activeRun.id}/steps`}
                       text={activeRun.name}
-                    />
-                    {" "}
+                    />{" "}
                     <span>({activeRun.label})</span>
                   </h5>
                   <h5>
