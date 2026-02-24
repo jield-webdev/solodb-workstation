@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../../auth/hooks/useAuth";
 import UserList from "../../components/login/UserList";
 
@@ -21,15 +21,7 @@ export default function Login() {
                   Checking session status...
                 </div>
               ) : user ? (
-                <div className="d-grid gap-2">
-                  <div className="alert alert-success mb-0" role="alert">
-                    You are already signed in as{" "}
-                    <span className="fw-semibold">{user.full_name}</span>.
-                  </div>
-                  <Link className="btn btn-primary" to="/session">
-                    Go to session
-                  </Link>
-                </div>
+                <Navigate to="/session" replace />
               ) : (
                 <UserList />
               )}

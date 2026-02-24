@@ -1,7 +1,10 @@
 import { type User } from "@jield/solodb-typescript-core";
 import { useEffect, useState } from "react";
 import { getServerUri } from "../../helpers/runtimeConfig";
-import { getUserManagerToken, loginWithUser } from "../../auth/helpers/pickUserLogin";
+import {
+  getUserManagerToken,
+  loginWithUser,
+} from "../../auth/helpers/pickUserLogin";
 
 async function fetchUsers(): Promise<User[]> {
   const token = getUserManagerToken();
@@ -9,6 +12,7 @@ async function fetchUsers(): Promise<User[]> {
 
   const endpoint = `${getServerUri()}/list/user?`;
 
+  // Raw fetch so we dont need to send the token to axios
   const response = await fetch(endpoint, {
     method: "GET",
     headers: {
@@ -49,7 +53,9 @@ export default function UserList() {
       .catch((error: unknown) => {
         if (!isMounted) return;
         setErrorMessage(
-          error instanceof Error ? error.message : "Unable to load users right now.",
+          error instanceof Error
+            ? error.message
+            : "Unable to load users right now.",
         );
       })
       .finally(() => {
@@ -61,6 +67,16 @@ export default function UserList() {
       isMounted = false;
     };
   }, []);
+
+  const pickUser = (userId: number) => {
+    loginWithUser(userId)
+      .then(() => {
+        location.reload();
+      })
+      .catch((reason) => {
+        setErrorMessage(`${reason}`);
+      });
+  };
 
   if (isLoading) {
     return (
@@ -91,7 +107,11 @@ export default function UserList() {
                 <div className="fw-semibold">{usr.full_name}</div>
                 <div className="small text-secondary">ID: {usr.id}</div>
               </div>
-              <button onClick={() => loginWithUser(usr.id)} type="button" className="btn btn-outline-primary btn-sm">
+              <button
+                onClick={() => pickUser(usr.id)}
+                type="button"
+                className="btn btn-outline-primary btn-sm"
+              >
                 Pick user
               </button>
             </li>
