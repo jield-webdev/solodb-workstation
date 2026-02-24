@@ -3,6 +3,7 @@ import { createContext } from "react";
 
 export const AuthMethod = {
   HARDCODED_TOKEN: 1,
+  USER_PICKED: 2,
 } as const;
 
 export type AuthMethod = (typeof AuthMethod)[keyof typeof AuthMethod];
