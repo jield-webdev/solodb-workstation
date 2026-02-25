@@ -14,10 +14,11 @@
 - Build Electron distributables: `yarn electron:build`
 - Preview production web build: `yarn preview`
 
-## Quality Checks
-- Lint: `yarn lint`
-- Tests: `yarn test`
-- Before finalizing code changes, run at least lint and tests.
+## Expected Validation Before Finalizing Changes
+
+- Run at least `yarn test` and `yarn lint` before finishing.
+- If the changes affect react code verify the changes with `npx -y react-doctor@latest . --verbose --diff`.
+- If behavior changes, add or update tests near the affected domain code.
 - If runtime behavior changes, add/update tests (see `src/helpers/runtimeConfig.test.ts`).
 
 ## Architecture Map
