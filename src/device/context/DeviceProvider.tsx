@@ -1,7 +1,7 @@
 import { type ReactElement, useEffect, useState } from "react";
 import { DeviceContext } from "./DeviceContext.ts";
 import type {
-  DashboardComponent,
+  WorkstationComponent,
   Equipment,
   EquipmentModule,
 } from "@jield/solodb-typescript-core";
@@ -19,8 +19,8 @@ export const DeviceProvider = ({ children }: { children: ReactElement }) => {
   const [equipment, setEquipment] = useState<Equipment | null>(null);
   const [equipmentModule, setEquipmentModule] =
     useState<EquipmentModule | null>(null);
-  const [dashboardComponents, setDashboardComponents] = useState<
-    DashboardComponent[] | null
+  const [WorkstationComponents, setWorkstationComponents] = useState<
+    WorkstationComponent[] | null
   >(null);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export const DeviceProvider = ({ children }: { children: ReactElement }) => {
         setDeviceName(deviceContext.deviceName);
         setEquipment(deviceContext.equipment);
         setEquipmentModule(deviceContext.equipmentModule);
-        setDashboardComponents(deviceContext.dashboardComponents);
+        setWorkstationComponents(deviceContext.WorkstationComponents);
         setIsLoading(false);
       })
       .catch(() => {
@@ -67,7 +67,7 @@ export const DeviceProvider = ({ children }: { children: ReactElement }) => {
         deviceId,
         equipment,
         equipmentModule,
-        dashboardComponents,
+        WorkstationComponents,
       }}
     >
       {children}

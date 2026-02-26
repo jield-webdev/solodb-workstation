@@ -26,6 +26,6 @@ export default async function getDevice(
     deviceId: deviceId,
     equipment: equipment,
     equipmentModule: equipmentModule,
-    dashboardComponents: equipment.dashboard_components,
+    WorkstationComponents: equipment.workstation_components,
   };
 }

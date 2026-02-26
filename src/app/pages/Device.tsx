@@ -3,7 +3,7 @@ import { useDevice } from "../../device/hooks/useDevice.ts";
 import { ModuleStatusElement } from "@jield/solodb-react-components";
 
 export default function Device() {
-  const { deviceName, equipmentModule, dashboardComponents } = useDevice();
+  const { deviceName, equipmentModule, WorkstationComponents } = useDevice();
 
   return (
     <div className="container-fluid py-4">
@@ -16,9 +16,9 @@ export default function Device() {
         <div className="col-lg">
           <div className="card shadow-sm">
             <div className="card-body">
-              {dashboardComponents?.length ? (
+              {WorkstationComponents?.length ? (
                 <div className="row g-3">
-                  {dashboardComponents.map((moduleName) => (
+                  {WorkstationComponents.map((moduleName) => (
                     <ModuleComponentRenderer
                       key={`${moduleName}:${deviceName}`}
                       moduleName={moduleName.valueOf()}

@@ -51,3 +51,12 @@ Modules are explicitly registered in `componentImports` (`src/modules/moduleComp
 
 The application can be integrated with **Electron** by adding an abstraction layer over Electron-specific features.  
 This approach allows the same codebase to be used for both the web version and the Electron desktop version without modification.
+
+## 7. Deployment (Azure Static Web Apps)
+
+The web build is deployed via GitHub Actions using Azure Static Web Apps.
+
+Required setup:
+- Create an Azure Static Web App for this repo/branch.
+- Add the deployment token as the GitHub Actions secret `AZURE_STATIC_WEB_APPS_API_TOKEN`.
+- The workflow file is `.github/workflows/azure-static-web-apps.yml`.

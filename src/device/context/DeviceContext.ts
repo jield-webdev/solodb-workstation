@@ -1,4 +1,4 @@
-import type {Equipment, EquipmentModule, DashboardComponent } from "@jield/solodb-typescript-core";
+import type {Equipment, EquipmentModule, WorkstationComponent } from "@jield/solodb-typescript-core";
 import { createContext } from "react";
 
 export interface DeviceContext {
@@ -6,7 +6,7 @@ export interface DeviceContext {
     deviceId: number;
     equipment: Equipment | null;
     equipmentModule: EquipmentModule | null;
-    dashboardComponents: DashboardComponent[] | null;
+    WorkstationComponents: WorkstationComponent[] | null;
 }
 
 export const DeviceContext = createContext<DeviceContext>({
@@ -14,5 +14,5 @@ export const DeviceContext = createContext<DeviceContext>({
     deviceId: 0,
     equipment: null,
     equipmentModule: null,
-    dashboardComponents: null,
+    WorkstationComponents: null,
 });

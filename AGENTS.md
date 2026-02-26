@@ -14,6 +14,10 @@
 - Build Electron distributables: `yarn electron:build`
 - Preview production web build: `yarn preview`
 
+## Deployment (Azure Static Web Apps)
+- Workflow: `.github/workflows/azure-static-web-apps.yml`.
+- Required secret: `AZURE_STATIC_WEB_APPS_API_TOKEN`.
+
 ## Expected Validation Before Finalizing Changes
 
 - Run at least `yarn test` and `yarn lint` before finishing.
