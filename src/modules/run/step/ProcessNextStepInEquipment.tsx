@@ -1,6 +1,5 @@
 import type { ModuleComponent } from "../../ModuleComponent";
-import {
-  listRuns,
+import { listRuns,
   type Run,
 } from "@jield/solodb-typescript-core";
 import {

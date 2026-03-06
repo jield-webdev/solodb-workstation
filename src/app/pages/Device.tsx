@@ -14,24 +14,23 @@ export default function Device() {
 
       <div className="row">
         <div className="col-lg">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              {WorkstationComponents?.length ? (
-                <div className="row g-3">
-                  {WorkstationComponents.map((moduleName) => (
-                    <ModuleComponentRenderer
-                      key={`${moduleName}:${deviceName}`}
-                      moduleName={moduleName.valueOf()}
-                    />
-                  ))}
+          {WorkstationComponents?.length ? (
+            <div className="d-flex flex-column gap-3">
+              {WorkstationComponents.map((moduleName) => (
+                <div key={`${moduleName}:${deviceName}`} className="card shadow-sm">
+                  <div className="card-body">
+                    <ModuleComponentRenderer moduleName={moduleName.valueOf()} />
+                  </div>
                 </div>
-              ) : (
-                <div className="text-secondary">
-                  No modules configured for this device yet.
-                </div>
-              )}
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="card shadow-sm">
+              <div className="card-body text-secondary">
+                No modules configured for this device yet.
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
