@@ -1631,23 +1631,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-react-components@npm:^1.0.18":
-  version: 1.0.18
-  resolution: "@jield/solodb-react-components@npm:1.0.18"
+"@jield/solodb-react-components@npm:^1.0.23":
+  version: 1.0.23
+  resolution: "@jield/solodb-react-components@npm:1.0.23"
   dependencies:
-    "@jield/solodb-typescript-core": "npm:^1.0.10"
+    "@jield/solodb-typescript-core": "npm:^1.0.18"
     "@testing-library/dom": "npm:^10.4.1"
     moment: "npm:^2.30.1"
     moment-timezone: "npm:^0.6.0"
     qrcode.react: "npm:^4.2.0"
     react-bootstrap: "npm:^2.10.10"
-    react-dropzone: "npm:^14.3.8"
+    react-dropzone: "npm:^14.4.1"
     react-google-charts: "npm:^5.2.1"
-    react-hook-form: "npm:^7.71.1"
-    react-intersection-observer: "npm:^10.0.2"
+    react-hook-form: "npm:^7.71.2"
+    react-intersection-observer: "npm:^10.0.3"
     react-markdown: "npm:^10.1.0"
     react-select: "npm:^5.10.2"
-    yet-another-react-lightbox: "npm:^3.28.0"
+    yet-another-react-lightbox: "npm:^3.29.1"
   peerDependencies:
     "@tanstack/react-query": ^5.90
     "@tanstack/react-table": ^8.21
@@ -1655,25 +1655,16 @@ __metadata:
     react: ^19
     react-dom: ^19
     react-router-dom: ^7.9
-  checksum: 10c0/ab902888d1e1cc3467349646b854829b2db04560d033adf2db4f975d52085d9ee3c37f210456e7655092fded5da9be0e195342c5cdb96c9fbc7d0c07ec248de6
+  checksum: 10c0/6d75990da29e0807a8c78da10b5492bc98664197eef734eeefc6b5e78098f74674a75fb33539e9a133074ae7397a6247cb543aa005ad4ef02bb6ac82587da6b7
   languageName: node
   linkType: hard
 
-"@jield/solodb-typescript-core@npm:^1.0.10":
-  version: 1.0.10
-  resolution: "@jield/solodb-typescript-core@npm:1.0.10"
+"@jield/solodb-typescript-core@npm:^1.0.18":
+  version: 1.0.18
+  resolution: "@jield/solodb-typescript-core@npm:1.0.18"
   peerDependencies:
     axios: ^1.13.2
-  checksum: 10c0/eff838074edda8e3c68ece0d3ad33915b63286fd0e9358967181620b7814ecc362dbfd7a205b74aadb73e7e9cd00f4b4660c4f11a9c378b6b5d937f4604d63bd
-  languageName: node
-  linkType: hard
-
-"@jield/solodb-typescript-core@npm:^1.0.11":
-  version: 1.0.11
-  resolution: "@jield/solodb-typescript-core@npm:1.0.11"
-  peerDependencies:
-    axios: ^1.13.2
-  checksum: 10c0/0a7a8dfb6bda116976922362f9d9c4347eae893b2b41e4bfaec38d74b2828dd34be016e927f92293b5a713a61df0e0adb6f05657e50a818a162c2bce7e172ec0
+  checksum: 10c0/9de5bbf7b7fd6bdae77f089258aacaefe9720c6162a559a28d3f841a77d13d5a8f78c9c1205e697a8846a505d55f22535ff51ba61b6e2fc122b244afe490f78e
   languageName: node
   linkType: hard
 
@@ -7762,16 +7753,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^14.3.8":
-  version: 14.3.8
-  resolution: "react-dropzone@npm:14.3.8"
+"react-dropzone@npm:^14.4.1":
+  version: 14.4.1
+  resolution: "react-dropzone@npm:14.4.1"
   dependencies:
     attr-accept: "npm:^2.2.4"
     file-selector: "npm:^2.1.0"
     prop-types: "npm:^15.8.1"
   peerDependencies:
     react: ">= 16.8 || 18.0.0"
-  checksum: 10c0/e17b1832783cda7b8824fe9370e99185d1abbdd5e4980b2985d6321c5768c8de18ff7b9ad550c809ee9743269dea608ff74d5208062754ce8377ad022897b278
+  checksum: 10c0/ee66f88a06fcd1250f0e0d79cc967055f9b9fb9ce1d024c2ca92ff165b81fb44fe680b5f4e1bd49f9ca64dd834018868a6d8996548426cafcc0d770c075570c8
   languageName: node
   linkType: hard
 
@@ -7785,25 +7776,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.71.1":
-  version: 7.71.1
-  resolution: "react-hook-form@npm:7.71.1"
+"react-hook-form@npm:^7.71.2":
+  version: 7.71.2
+  resolution: "react-hook-form@npm:7.71.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/6c8fc0fa740d299481de3ed32bae98f7c6331240822c602363e5cd221746d875dc3c5e65d0039902b7f7a44dc9ac9a4932e00e9ad9af3051bed1987858ce78c7
+  checksum: 10c0/bff61c229f5f2516e650325e0c450146cb8a08dc323e5e9aa0753eb937be0b66fe17f40a7b4be9aabc2b5cb770d03de07db7f4912c6c9452a86924072cc1cb46
   languageName: node
   linkType: hard
 
-"react-intersection-observer@npm:^10.0.2":
-  version: 10.0.2
-  resolution: "react-intersection-observer@npm:10.0.2"
+"react-intersection-observer@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "react-intersection-observer@npm:10.0.3"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/6a71956dcad43699a3d3ea9e9d311c85525de88074d2b7869b4315a7778cd0edfda41cdb63733711a17fd30094a8effae7ab2932728448b4e56eed0b51a3c4d3
+  checksum: 10c0/64439d19793c49bf9d1701fc74cd854f4ddc646411500a4d1efa058ac0100efdde5d4dd24ce736a48eeba9de3585c164c916be2b91e9c9b2b5db7b756c8cec9d
   languageName: node
   linkType: hard
 
@@ -8532,8 +8523,8 @@ __metadata:
     "@electron-forge/plugin-auto-unpack-natives": "npm:^7.11.1"
     "@electron-forge/plugin-vite": "npm:^7.11.1"
     "@eslint/js": "npm:^10.0.1"
-    "@jield/solodb-react-components": "npm:^1.0.18"
-    "@jield/solodb-typescript-core": "npm:^1.0.11"
+    "@jield/solodb-react-components": "npm:^1.0.23"
+    "@jield/solodb-typescript-core": "npm:^1.0.18"
     "@tanstack/react-query": "npm:~5.90.21"
     "@tanstack/react-table": "npm:^8.21.3"
     "@testing-library/jest-dom": "npm:^6.9.1"
@@ -9891,9 +9882,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yet-another-react-lightbox@npm:^3.28.0":
-  version: 3.28.0
-  resolution: "yet-another-react-lightbox@npm:3.28.0"
+"yet-another-react-lightbox@npm:^3.29.1":
+  version: 3.29.1
+  resolution: "yet-another-react-lightbox@npm:3.29.1"
   peerDependencies:
     "@types/react": ^16 || ^17 || ^18 || ^19
     "@types/react-dom": ^16 || ^17 || ^18 || ^19
@@ -9904,7 +9895,7 @@ __metadata:
       optional: true
     "@types/react-dom":
       optional: true
-  checksum: 10c0/cf737a507abd73f9a9ed0249f73367cf3035c63ed1786b4e8b393fb66cdf90fb9aae1940cca5d086d010c789db0e320bb1c961c19aa1366329dfc55a9f695774
+  checksum: 10c0/198b7721b24b1a0c0459ac1fb12838f7bef2d604514a0884a22e27fc33d4d68fe6e1481519a6786e8f45fab4dbe8f9c380aae50128d5d383a542a96d80c8bc04
   languageName: node
   linkType: hard
 
