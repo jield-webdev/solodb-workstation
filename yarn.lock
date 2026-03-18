@@ -1468,9 +1468,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-react-components@npm:^1.0.23":
-  version: 1.0.23
-  resolution: "@jield/solodb-react-components@npm:1.0.23"
+"@jield/solodb-react-components@npm:^1.0.24":
+  version: 1.0.24
+  resolution: "@jield/solodb-react-components@npm:1.0.24"
   dependencies:
     "@jield/solodb-typescript-core": "npm:^1.0.18"
     "@testing-library/dom": "npm:^10.4.1"
@@ -1492,7 +1492,7 @@ __metadata:
     react: ^19
     react-dom: ^19
     react-router-dom: ^7.9
-  checksum: 10c0/6d75990da29e0807a8c78da10b5492bc98664197eef734eeefc6b5e78098f74674a75fb33539e9a133074ae7397a6247cb543aa005ad4ef02bb6ac82587da6b7
+  checksum: 10c0/5e21011915b96dbbd950d4801d7fb4ad4be05a55dc94181ce9f2c8abf41b46fa5e95afc035b970a31a436ef15f31eea387397981fdaf477d496fdc44ea38362d
   languageName: node
   linkType: hard
 
@@ -8330,7 +8330,7 @@ __metadata:
     "@electron-forge/plugin-auto-unpack-natives": "npm:^7.11.1"
     "@electron-forge/plugin-vite": "npm:^7.11.1"
     "@eslint/js": "npm:^10.0.1"
-    "@jield/solodb-react-components": "npm:^1.0.23"
+    "@jield/solodb-react-components": "npm:^1.0.24"
     "@jield/solodb-typescript-core": "npm:^1.0.18"
     "@tanstack/react-query": "npm:~5.90.21"
     "@tanstack/react-table": "npm:^8.21.3"
