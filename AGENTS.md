@@ -1,18 +1,14 @@
 # AGENTS.md
 
 ## Project Overview
-- SoloDB Workstation is an operator interface for SoloDB.
-- The same React codebase runs in two targets:
-  - Web (Vite)
-  - Desktop (Electron + Electron Forge)
-- Device pages render modules dynamically from backend-provided module names.
+
+**solodb-workstation** is a hybrid desktop/web application providing operators with an interface to interact with SoloDB devices. It runs as both a React SPA (deployed to Azure Static Web Apps) and an Electron desktop app from a single shared codebase.
 
 ## Development Commands
 - Start web app: `yarn dev`
 - Start Electron app (dev): `yarn electron:dev`
 - Build web app: `yarn build`
 - Build Electron distributables: `yarn electron:build`
-- Preview production web build: `yarn preview`
 
 ## Deployment (Azure Static Web Apps)
 - Workflow: `.github/workflows/azure-static-web-apps.yml`.
