@@ -21,7 +21,7 @@
     "@electron-forge/maker-rpm": "^7.11.1",
     "@electron-forge/maker-squirrel": "^7.11.1",
     "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
-    "@jield/solodb-react-components": "^1.0.25",
+    "@jield/solodb-react-components": "^1.0.26",
     "@jield/solodb-typescript-core": "^1.0.18",
     "@tanstack/react-query": "~5.90.21",
     "@tanstack/react-table": "^8.21.3",
