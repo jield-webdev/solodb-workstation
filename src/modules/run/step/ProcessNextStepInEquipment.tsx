@@ -11,7 +11,7 @@ import {
   useQueryClient,
   type QueryKey,
 } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
 import { useDevice } from "../../../device/hooks/useDevice.ts";
 
@@ -45,7 +45,14 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   const isError = runsQuery.isError;
 
   const { selectedRun } = useSelectRunWithScanner({ runsList: runsToProcess });
-  const { readingKeys } = useScannerContext();
+  const { addReadingCallbackFn, removeReadingCallbackFn } = useScannerContext();
+  const callbackId = useId();
+  const [readingKeys, setReadingKeys] = useState<string>("");
+
+  useEffect(() => {
+    addReadingCallbackFn(callbackId, setReadingKeys);
+    return () => removeReadingCallbackFn(callbackId);
+  }, []);
 
   if (isLoading) {
     return (
