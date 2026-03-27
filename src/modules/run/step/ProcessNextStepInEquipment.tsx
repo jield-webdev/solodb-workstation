@@ -79,7 +79,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     <div className="p-3">
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
         <div className="medium text-secondary">
-          Process next step in equipment
+          Batch processing
         </div>
       </div>
 

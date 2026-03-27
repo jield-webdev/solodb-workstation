@@ -7,7 +7,7 @@ export default function Device() {
 
     return (
         <div className="container-fluid py-4">
-            <div className="d-flex align-items-start">
+            <div className="d-flex align-items-start align-items-center gap-3">
                 <h1 className="display-6 mb-2">{deviceName ?? "Loading device..."}</h1>
                 {equipmentModule && <ModuleStatusElement module={equipmentModule}/>}
             </div>
