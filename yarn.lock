@@ -1468,11 +1468,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jield/solodb-react-components@npm:^1.0.29":
-  version: 1.0.29
-  resolution: "@jield/solodb-react-components@npm:1.0.29"
+"@jield/solodb-react-components@npm:^1.0.31":
+  version: 1.0.31
+  resolution: "@jield/solodb-react-components@npm:1.0.31"
   dependencies:
-    "@jield/solodb-typescript-core": "npm:^1.0.22"
+    "@jield/solodb-typescript-core": "npm:^1.0.23"
     "@testing-library/dom": "npm:^10.4.1"
     moment: "npm:^2.30.1"
     moment-timezone: "npm:^0.6.0"
@@ -1492,16 +1492,16 @@ __metadata:
     react: ^19
     react-dom: ^19
     react-router-dom: ^7.9
-  checksum: 10c0/959a8da7b9965334426f675aa84c854ad056c737859900732c149068be470dd873e7ce8328c18d80c5a8b6ba3bab42cee0e369f051b1ffe9cde85524de53b998
+  checksum: 10c0/0cf5f10b3da0abb8b03898539f2a2cb8c2c03ecca21785056a9bb846da3bbe066bf491c2fae9b9e93e43e53aec4555b9defdee87c7007edffd600efa074f9061
   languageName: node
   linkType: hard
 
-"@jield/solodb-typescript-core@npm:^1.0.22":
-  version: 1.0.22
-  resolution: "@jield/solodb-typescript-core@npm:1.0.22"
+"@jield/solodb-typescript-core@npm:^1.0.23":
+  version: 1.0.23
+  resolution: "@jield/solodb-typescript-core@npm:1.0.23"
   peerDependencies:
     axios: ^1.13.2
-  checksum: 10c0/4db1a85df8f5233c643f1db6a27bd9dc408c6a685f7faba6a0bc1a4af6422d15eb6bf4629648c86d125294be9b895e37702435e0ce8922f286b9d1a2707c9b75
+  checksum: 10c0/5a29fb044d2cb180b3e2edf3cfb57d9311bba215105d8d6bb7c87a042dbc816670c08afeb9c788524b62a0224d64996047ba37df48168d6b420123de209b014c
   languageName: node
   linkType: hard
 
@@ -8330,8 +8330,8 @@ __metadata:
     "@electron-forge/plugin-auto-unpack-natives": "npm:^7.11.1"
     "@electron-forge/plugin-vite": "npm:^7.11.1"
     "@eslint/js": "npm:^10.0.1"
-    "@jield/solodb-react-components": "npm:^1.0.29"
-    "@jield/solodb-typescript-core": "npm:^1.0.22"
+    "@jield/solodb-react-components": "npm:^1.0.31"
+    "@jield/solodb-typescript-core": "npm:^1.0.23"
     "@tanstack/react-query": "npm:~5.90.21"
     "@tanstack/react-table": "npm:^8.21.3"
     "@testing-library/jest-dom": "npm:^6.9.1"
