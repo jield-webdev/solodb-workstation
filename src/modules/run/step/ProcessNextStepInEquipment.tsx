@@ -77,35 +77,38 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
 
   return (
     <div className="p-3">
-      <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
-        <div className="medium text-secondary">Batch processing</div>
+      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 className="h5 mb-0">Batch processing</h2>
+        <span className="badge text-bg-secondary">{runsToProcess.length} runs</span>
       </div>
 
       {/* LIST OF RUNS TO PROCESS */}
       {!selectedRun && (
         <>
           {runsToProcess.length === 0 ? (
-            <div className="border rounded-3 p-4 text-center">
-              <div className="fw-semibold mb-1">
-                Nothing to process right now
-              </div>
-              <div className="text-secondary small">
+            <div className="border rounded-3 p-4 text-center text-secondary">
+              <div className="fw-semibold mb-1">Nothing to process right now</div>
+              <div className="small">
                 All runs for this equipment are complete or paused.
               </div>
             </div>
           ) : (
-            <div className="list-group shadow-sm mb-3">
+            <div className="d-flex flex-column gap-2 mb-3">
               {runsToProcess.map((run) => (
-                <div
-                  key={run.id}
-                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3"
-                >
-                  <div className="d-flex align-items-center">
-                    <span className="fw-medium">{run.name}</span>
+                <div key={run.id} className="card shadow-sm">
+                  <div className="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                      <div className="fw-semibold">{run.name}</div>
+                      {run.first_unfinished_step && (
+                        <div className="text-secondary small mt-1">
+                          Next: {run.first_unfinished_step.name}
+                        </div>
+                      )}
+                    </div>
+                    <span className="badge text-bg-warning px-3 py-2">
+                      {run.label}
+                    </span>
                   </div>
-                  <span className="badge rounded-pill text-bg-warning px-3 py-2">
-                    {run.label}
-                  </span>
                 </div>
               ))}
             </div>
