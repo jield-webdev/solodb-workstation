@@ -39,19 +39,6 @@ export const DeviceProvider = ({ children }: { children: ReactElement }) => {
       });
   }, [id]);
 
-  if (isLoading) {
-    return (
-      <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 gap-3">
-        <div
-          className="spinner-border text-primary"
-          role="status"
-          aria-label="Loading credentials"
-        />
-        <div className="text-muted">Loading device...</div>
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 gap-3">
@@ -68,6 +55,7 @@ export const DeviceProvider = ({ children }: { children: ReactElement }) => {
         equipment,
         equipmentModule,
         WorkstationComponents,
+        isLoading,
       }}
     >
       {children}

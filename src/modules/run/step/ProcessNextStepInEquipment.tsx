@@ -78,9 +78,7 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   return (
     <div className="p-3">
       <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
-        <div className="medium text-secondary">
-          Batch processing
-        </div>
+        <div className="medium text-secondary">Batch processing</div>
       </div>
 
       {/* LIST OF RUNS TO PROCESS */}
@@ -96,23 +94,21 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
               </div>
             </div>
           ) : (
-            <ul className="list-unstyled mb-3">
+            <div className="list-group shadow-sm mb-3">
               {runsToProcess.map((run) => (
-                <li key={run.id} className="mb-2">
-                  <button
-                    className={`btn btn-outline-secondary w-100 text-start d-flex align-items-center justify-content-between ${
-                      selectedRun === run.id ? "active" : ""
-                    }`}
-                    type="button"
-                  >
-                    <span>{run.name}</span>
-                    <span className="badge rounded-pill text-bg-warning text-dark small">
-                      {run.label}
-                    </span>
-                  </button>
-                </li>
+                <div
+                  key={run.id}
+                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3"
+                >
+                  <div className="d-flex align-items-center">
+                    <span className="fw-medium">{run.name}</span>
+                  </div>
+                  <span className="badge rounded-pill text-bg-warning px-3 py-2">
+                    {run.label}
+                  </span>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </>
       )}

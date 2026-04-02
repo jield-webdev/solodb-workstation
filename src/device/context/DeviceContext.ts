@@ -7,6 +7,7 @@ export interface DeviceContext {
     equipment: Equipment | null;
     equipmentModule: EquipmentModule | null;
     WorkstationComponents: WorkstationComponent[] | null;
+    isLoading: boolean;
 }
 
 export const DeviceContext = createContext<DeviceContext>({
@@ -15,4 +16,5 @@ export const DeviceContext = createContext<DeviceContext>({
     equipment: null,
     equipmentModule: null,
     WorkstationComponents: null,
+    isLoading: true,
 });
