@@ -54,19 +54,6 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     return () => removeReadingCallbackFn(callbackId);
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="d-flex align-items-center gap-2 text-secondary">
-        <span
-          className="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-        />
-        <span>Loading next steps…</span>
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div className="alert alert-danger mb-0" role="alert">
@@ -79,15 +66,38 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
     <div className="p-3">
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <h2 className="h5 mb-0">Batch processing</h2>
-        <span className="badge text-bg-secondary">{runsToProcess.length} runs</span>
       </div>
 
+      {!selectedRun && isLoading && (
+        <div className="d-flex flex-column gap-2">
+          <div className="card shadow-sm">
+            <div className="card-body py-3 d-flex justify-content-between align-items-center">
+              <div className="placeholder-glow w-75">
+                <div className="placeholder col-7 mb-1" />
+                <div
+                  className="placeholder col-5"
+                  style={{ height: "0.75rem" }}
+                />
+              </div>
+              <span className="placeholder-glow">
+                <span
+                  className="placeholder col-12"
+                  style={{ width: 64, height: "1.5rem" }}
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* LIST OF RUNS TO PROCESS */}
-      {!selectedRun && (
+      {!selectedRun && !isLoading && (
         <>
           {runsToProcess.length === 0 ? (
             <div className="border rounded-3 p-4 text-center text-secondary">
-              <div className="fw-semibold mb-1">Nothing to process right now</div>
+              <div className="fw-semibold mb-1">
+                Nothing to process right now
+              </div>
               <div className="small">
                 All runs for this equipment are complete or paused.
               </div>
