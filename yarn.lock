@@ -3840,16 +3840,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^40.8.5":
-  version: 40.8.5
-  resolution: "electron@npm:40.8.5"
+"electron@npm:^41.1.1":
+  version: 41.1.1
+  resolution: "electron@npm:41.1.1"
   dependencies:
     "@electron/get": "npm:^2.0.0"
     "@types/node": "npm:^24.9.0"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10c0/3874115299b101bada7f243afd1e0479c88a11fa534171a3d60d7933f4f0c382ef8e58aeaf91c963a2bb4d087ef3cd68065796b611a1dbaeb4b1205e680a23bd
+  checksum: 10c0/b52df5c263ee612e62b7d804bf97d739f2876b5b16cf46cf99ec338d59093cb066bf85d1ad77115d4839a5ea64bba66ecb27111696a409cbe64eb81c3e71449e
   languageName: node
   linkType: hard
 
@@ -8131,7 +8131,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^6.0.1"
     "@vitest/coverage-v8": "npm:^4.1.2"
     axios: "npm:^1.14.0"
-    electron: "npm:^40.8.5"
+    electron: "npm:^41.1.1"
     eslint: "npm:^10.2.0"
     eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-react-refresh: "npm:^0.5.2"
