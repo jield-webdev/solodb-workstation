@@ -1,6 +1,6 @@
 import { BrowserRouter, HashRouter } from "react-router-dom";
-import { Providers } from "./providers/Providers";
-import { AppRoutes } from "./routes/AppRoutes";
+import { Providers } from "./Providers.tsx";
+import { AppRoutes } from "./AppRoutes.tsx";
 import AppNavbar from "../components/AppNavbar";
 
 export default function App() {

@@ -1,77 +1,53 @@
-import {useEffect, useState} from "react";
-import {useAuth} from "../../auth/hooks/useAuth";
-import {useParams} from "react-router-dom";
 import ModuleComponentRenderer from "../../modules/ModuleComponentRenderer";
-import {type Equipment, getEquipment} from "@jield/solodb-typescript-core";
+import {useDevice} from "../../device/hooks/useDevice.ts";
+import {ModuleStatusElement} from "@jield/solodb-react-components";
+import Placeholder from "react-bootstrap/Placeholder";
 
 export default function Device() {
-    const {user} = useAuth();
-    const {id} = useParams();
-
-    const [equipment, setEquipment] = useState<Equipment | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (!user || !id) return;
-        setIsLoading(true);
-        setError(null);
-        getEquipment({'id': Number(id)})
-            .then(setEquipment)
-            .catch((err: Error) => setError(err.message))
-            .finally(() => setIsLoading(false));
-    }, [user, id]);
+    const {deviceName, equipmentModule, WorkstationComponents, isLoading} = useDevice();
 
     return (
         <div className="container-fluid py-4">
-            <div>
-                <h1 className="display-6 mb-1">
-                    {equipment?.name ?? "Loading device..."}
-                </h1>
+            <div className="d-flex align-items-start align-items-center gap-3">
+                {isLoading ? (
+                    <Placeholder as="h1" animation="glow" className="display-6 mb-2 w-25">
+                        <Placeholder xs={12}/>
+                    </Placeholder>
+                ) : (
+                    <h1 className="display-6 mb-2">{deviceName}</h1>
+                )}
+                {equipmentModule && <ModuleStatusElement module={equipmentModule}/>}
             </div>
-
-            {isLoading && (
-                <div
-                    className="alert alert-info d-flex align-items-center gap-2"
-                    role="alert"
-                >
-          <span
-              className="spinner-border spinner-border-sm"
-              aria-hidden="true"
-          />
-                    Loading device data...
-                </div>
-            )}
-
-            {error && (
-                <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>
-            )}
-
 
             <div className="row">
                 <div className="col-lg">
-                    <div className="card shadow-sm">
-                        <div className="card-body">
-                            <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                                <h2 className="h6 mb-0">Modules</h2>
+                    {isLoading ? (
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <Placeholder animation="glow">
+                                    <Placeholder xs={3} className="mb-2"/>
+                                    <Placeholder xs={12}/>
+                                    <Placeholder xs={8}/>
+                                </Placeholder>
                             </div>
-                            {equipment?.dashboard_components.length ? (
-                                <div className="row g-3">
-                                    {equipment.dashboard_components.map((moduleName) => (
-                                        <div key={moduleName} className="border rounded-3 p-3 h-100 bg-body-tertiary">
-                                            <ModuleComponentRenderer moduleName={moduleName.valueOf()}/>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-secondary">
-                                    No modules configured for this device yet.
-                                </div>
-                            )}
                         </div>
-                    </div>
+                    ) : WorkstationComponents?.length ? (
+                        <div className="d-flex flex-column gap-3">
+                            {WorkstationComponents.map((moduleName) => (
+                                <div key={`${moduleName}:${deviceName}`} className="card shadow-sm">
+                                    <div className="card-body">
+                                        <ModuleComponentRenderer moduleName={moduleName.valueOf()}/>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="card shadow-sm">
+                            <div className="card-body text-secondary">
+                                No modules configured for this device yet.
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

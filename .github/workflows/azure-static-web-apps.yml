@@ -1,0 +1,49 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Use project Yarn version
+        run: corepack prepare yarn@4.13.0 --activate
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+        env:
+          VITE_BASE_URL: ${{ secrets.RAYLEIGH_TRAINING_VITE_BASE_URL }}
+          VITE_USER_MANAGER_TOKEN: ${{ secrets.RAYLEIGH_TRAINING_VITE_USER_MANAGER_TOKEN }}
+          VITE_USER_MANAGER_OAUTH_CLIENT_ID: ${{ secrets.RAYLEIGH_TRAINING_VITE_USER_MANAGER_OAUTH_CLIENT_ID }}
+
+      - name: Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BRAVE_MUSHROOM_04447A40F }}
+          repo_token: ${{ secrets.CR_PAT }}
+          action: upload
+          app_location: "dist/web"
+          skip_app_build: true

@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import { getRefreshToken, setRefreshToken } from "./config/refreshToken";
 
 export function setupIPCListeners() {
-    ipcMain.handle('isElectronActive', (_event) => {
+    ipcMain.handle('isElectronActive', () => {
         return true;
     });
 
@@ -11,6 +11,7 @@ export function setupIPCListeners() {
     });
 
     ipcMain.handle("setRefreshToken", async (_event, token: string) => {
+        void _event;
         await setRefreshToken(token);
     });
 }

@@ -1,92 +1,58 @@
 import type { ModuleComponent } from "../../ModuleComponent";
-import {
-  getEquipment,
-  getEquipmentModule,
-  listRuns,
-  type Equipment,
-  type Run,
-} from "@jield/solodb-typescript-core";
+import { listRuns } from "@jield/solodb-typescript-core";
 import {
   RunStepExecuteMinimal,
-  NavigateInRunWithQrScanner,
-  ModuleStatusElement,
   BatchCardElement,
+  useSelectRunWithScanner,
+  useScannerContext,
 } from "@jield/solodb-react-components";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+  useQueries,
+  useQueryClient,
+  type QueryKey,
+} from "@tanstack/react-query";
+import { useEffect, useId, useMemo, useState } from "react";
 import LinkToSoloDb from "../../../components/LinkToSoloDB";
+import { useDevice } from "../../../device/hooks/useDevice.ts";
 
 const ProcessNextStepInEquipment: ModuleComponent = () => {
-  const { id } = useParams<{ id: string }>();
-  const [equipment, setEquipment] = useState<Equipment | null>();
-  const [activeRunId, setActiveRunId] = useState<number | null>(null);
+  const { equipment } = useDevice();
 
   const queryClient = useQueryClient();
 
-  const queries = useQueries({
+  const [runsQuery] = useQueries({
     queries: [
-      {
-        queryKey: ["equipment", id],
-        queryFn: () => getEquipment({ id: Number(id) }),
-      },
       {
         queryKey: ["run", "to_process", equipment?.id],
         queryFn: () =>
           listRuns({ firstUnfinishedStepEquipment: equipment ?? undefined }),
-      },
-      {
-        queryKey: ["equipment", equipment?.id],
-        queryFn: () => getEquipmentModule({ id: Number(equipment?.id) }),
+        enabled: Boolean(equipment),
       },
     ],
   });
 
-  const reloadQueriesByKey = (key: any[]) => {
+  const reloadQueriesByKey = (key: QueryKey) => {
     queryClient.refetchQueries({ queryKey: key });
   };
 
-  const [equipmentQuery, runsQuery, moduleQuery] = queries;
-
-  // handle selecting runStepParts 
-  const toggleRunStepPartRef = useRef<{
-    setPart: (part: number) => void;
-  } | null>(null);
-
-  // handle selecting runStepParts
-  const toggleRunPartRef = useRef<{
-    setPart: (part: number) => void;
-  } | null>(null);
-
-  useEffect(() => {
-    if (equipmentQuery.data?.id !== equipment?.id) {
-      setEquipment(equipmentQuery.data);
-    }
-  }, [equipmentQuery]);
-
-  const runsToProcess =
-    runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [];
-
-  const isLoading = queries.some((q) => q.isLoading);
-  const isError = queries.some((q) => q.isError);
-
-  const activeRun = useMemo(
-    () => runsToProcess.find((run) => run.id == activeRunId),
-    [activeRunId, runsToProcess],
+  const runsToProcess = useMemo(
+    () =>
+      runsQuery.data?.items.filter((run) => run.first_unfinished_step) ?? [],
+    [runsQuery.data],
   );
 
-  if (isLoading) {
-    return (
-      <div className="d-flex align-items-center gap-2 text-secondary">
-        <span
-          className="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-        />
-        <span>Loading next steps…</span>
-      </div>
-    );
-  }
+  const isLoading = runsQuery.isLoading;
+  const isError = runsQuery.isError;
+
+  const { selectedRun } = useSelectRunWithScanner({ runsList: runsToProcess });
+  const { addReadingCallbackFn, removeReadingCallbackFn } = useScannerContext();
+  const callbackId = useId();
+  const [readingKeys, setReadingKeys] = useState<string>("");
+
+  useEffect(() => {
+    addReadingCallbackFn(callbackId, setReadingKeys);
+    return () => removeReadingCallbackFn(callbackId);
+  }, []);
 
   if (isError) {
     return (
@@ -97,106 +63,111 @@ const ProcessNextStepInEquipment: ModuleComponent = () => {
   }
 
   return (
-    <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-start mb-4">
-        <div>
-          <div className="small text-secondary">
-            Process next step in equipment:
-          </div>
-          <div className="h5 mb-1">
-            {equipment?.name ?? "Unknown equipment"}
-            {moduleQuery.data && (
-              <span className="ms-2">
-                <ModuleStatusElement module={moduleQuery.data} />
-              </span>
-            )}
-          </div>
-        </div>
-        <NavigateInRunWithQrScanner
-          setRun={(run: Run) => setActiveRunId(run.id)}
-          runsList={runsToProcess}
-          setRunStepPartId={(part: number) => toggleRunStepPartRef.current?.setPart(part)}
-          setRunPartId={(part: number) => toggleRunPartRef.current?.setPart(part)}
-        />
+    <div className="p-3">
+      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 className="h5 mb-0">Batch processing</h2>
       </div>
 
+      {!selectedRun && isLoading && (
+        <div className="d-flex flex-column gap-2">
+          <div className="card shadow-sm">
+            <div className="card-body py-3 d-flex justify-content-between align-items-center">
+              <div className="placeholder-glow w-75">
+                <div className="placeholder col-7 mb-1" />
+                <div
+                  className="placeholder col-5"
+                  style={{ height: "0.75rem" }}
+                />
+              </div>
+              <span className="placeholder-glow">
+                <span
+                  className="placeholder col-12"
+                  style={{ width: 64, height: "1.5rem" }}
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* LIST OF RUNS TO PROCESS */}
-      {!activeRun && (
+      {!selectedRun && !isLoading && (
         <>
           {runsToProcess.length === 0 ? (
-            <div className="border rounded-3 p-4 text-center">
+            <div className="border rounded-3 p-4 text-center text-secondary">
               <div className="fw-semibold mb-1">
                 Nothing to process right now
               </div>
-              <div className="text-secondary small">
+              <div className="small">
                 All runs for this equipment are complete or paused.
               </div>
             </div>
           ) : (
-            <ul className="list-unstyled mb-3">
+            <div className="d-flex flex-column gap-2 mb-3">
               {runsToProcess.map((run) => (
-                <li key={run.id} className="mb-2">
-                  <button
-                    className={`btn btn-outline-secondary w-100 text-start d-flex align-items-center justify-content-between ${
-                      activeRunId === run.id ? "active" : ""
-                    }`}
-                    onClick={() => setActiveRunId(run.id)}
-                    type="button"
-                  >
-                    <span>{run.name}</span>
-                    <span className="badge rounded-pill text-bg-warning text-dark small">
+                <div key={run.id} className="card shadow-sm">
+                  <div className="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                      <div className="fw-semibold">{run.name}</div>
+                      {run.first_unfinished_step && (
+                        <div className="text-secondary small mt-1">
+                          Next: {run.first_unfinished_step.name}
+                        </div>
+                      )}
+                    </div>
+                    <span className="badge text-bg-warning px-3 py-2">
                       {run.label}
                     </span>
-                  </button>
-                </li>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </>
       )}
 
       {/* THE STEP TO PROCESS*/}
-      {activeRun && (
-        <div className="border rounded-3 p-3">
-          {activeRun.first_unfinished_step && (
+      {selectedRun && (
+        <div className="bg-body-primary">
+          {selectedRun.first_unfinished_step && (
             <>
               <div className="d-flex align-items-start gap-3">
                 <div className="d-flex flex-column">
                   <h5>
                     Run:{" "}
                     <LinkToSoloDb
-                      path={`operator/run/details/${activeRun.id}/steps`}
-                      text={activeRun.name}
-                    />
+                      path={`operator/run/details/${selectedRun.id}/steps`}
+                      text={selectedRun.name}
+                    />{" "}
+                    <span>({selectedRun.label})</span>
                   </h5>
                   <h5>
                     Step:{" "}
                     <LinkToSoloDb
-                      path={`operator/run/step/${activeRun.first_unfinished_step.id}`}
-                      text={activeRun.first_unfinished_step.name}
+                      path={`operator/run/step/${selectedRun.first_unfinished_step.id}`}
+                      text={selectedRun.first_unfinished_step.name}
                     />
                   </h5>
                 </div>
-                {activeRun.batch_card !== undefined && (
+                {selectedRun.batch_card !== undefined && (
                   <div className="flex-grow-1 m-0">
-                    <BatchCardElement run={activeRun} />
+                    <BatchCardElement run={selectedRun} />
                   </div>
                 )}
               </div>
               <RunStepExecuteMinimal
-                run={activeRun}
-                runStep={activeRun.first_unfinished_step}
+                run={selectedRun}
+                runStep={selectedRun.first_unfinished_step}
                 showOnlyEmphasizedParameters={false}
                 reloadRunStepFn={() => {
                   reloadQueriesByKey(["run", "to_process", equipment?.id]);
                 }}
-                toggleRunStepPartRef={toggleRunStepPartRef}
-                toggleRunPartRef={toggleRunPartRef}
               />
             </>
           )}
         </div>
       )}
+      <span>Reading from scanner: {readingKeys}</span>
     </div>
   );
 };

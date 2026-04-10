@@ -12,6 +12,7 @@ const cfg: RuntimeConfig = {
 export function initConfig(partial: Partial<RuntimeConfig>) {
   initSolodbComponents({
     serverUri: partial.serverUri,
+    irisServerUri: "http://localhost:4444/",
   });
   if (partial.serverUri !== undefined) cfg.serverUri = partial.serverUri;
   if (cfg.serverUri) axios.defaults.baseURL = getServerUri();

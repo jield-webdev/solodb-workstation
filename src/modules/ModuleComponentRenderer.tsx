@@ -14,7 +14,7 @@ export default function ModuleComponentRenderer({moduleName}: Props) {
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading component...</div>}>
             <Component/>
         </Suspense>
     );

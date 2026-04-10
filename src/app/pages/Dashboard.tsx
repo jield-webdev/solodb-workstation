@@ -7,7 +7,7 @@ export default function Dashboard() {
     const {user} = useAuth();
     const {data, isLoading, isError, error} = useQuery({
         queryKey: ["equipment"],
-        queryFn: () => listEquipment({}),
+        queryFn: () => listEquipment({hasWorkstationComponents: true}),
         enabled: Boolean(user),
     });
 
@@ -52,7 +52,6 @@ export default function Dashboard() {
             )}
 
 
-
             <div className="row g-3">
                 {equipment.map((equipment) => (
                     <div className="col-md-6 col-lg-4" key={equipment.id}>
@@ -63,11 +62,12 @@ export default function Dashboard() {
                                         <h3 className="h6 mb-1">{equipment.name}</h3>
                                         <div className="text-secondary small">Equipment ID {equipment.id}</div>
                                     </div>
-                                    <span className="badge text-bg-primary">{equipment.dashboard_components.length} components</span>
+                                    <span
+                                        className="badge text-bg-primary">{equipment.workstation_components.length} components</span>
                                 </div>
                                 <div className="mt-3 d-flex flex-wrap gap-2">
-                                    {equipment.dashboard_components.length > 0 ? (
-                                        equipment.dashboard_components.map((moduleName) => (
+                                    {equipment.workstation_components.length > 0 ? (
+                                        equipment.workstation_components.map((moduleName) => (
                                             <span key={moduleName} className="badge text-bg-light border text-dark">
                         {moduleName}
                       </span>
